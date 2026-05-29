@@ -164,6 +164,20 @@
     margin-top: 24px;
     padding-bottom: 20px;
   }
+  .domain-picker { margin-top: 12px; padding-top: 12px; border-top: 1px solid #e8ecf2; }
+  .domain-picker-label { font-size: 12px; color: #888; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+  .domain-picker-label .switch-btn {
+    font-size: 11px; padding: 2px 8px; border-radius: 10px; border: 1px solid #dde1e7;
+    background: #fff; cursor: pointer; color: #667eea; transition: all .15s;
+  }
+  .domain-picker-label .switch-btn:hover { background: #f0f2ff; border-color: #667eea; }
+  .domain-options { display: flex; flex-wrap: wrap; gap: 5px; }
+  .domain-opt {
+    font-size: 12px; padding: 4px 10px; border-radius: 14px; border: 1px solid #dde1e7;
+    background: #fff; cursor: pointer; transition: all .15s; color: #555;
+  }
+  .domain-opt:hover { border-color: #667eea; color: #667eea; background: #f0f2ff; }
+  .domain-opt.active { border-color: #667eea; background: #667eea; color: #fff; }
   @media (max-width: 480px) {
     .header h1 { font-size: 22px; }
     .container { padding: 16px 12px 30px; }
@@ -199,6 +213,12 @@
     </div>
     <div class="result-body">
       <div id="roleBadge" class="role-badge"></div>
+      <div id="domainPicker" class="domain-picker" style="display:none;">
+        <div class="domain-picker-label">
+          <span id="pickerLabel">角色不正確？選一個：</span>
+        </div>
+        <div class="domain-options" id="domainOptions"></div>
+      </div>
       <div id="resultText" class="result-text"></div>
     </div>
   </div>
@@ -601,32 +621,21 @@ const domains = [
   }
 ];
 
-function analyzeQuestion(question) {
+function scoreDomains(question) {
   const q = question.toLowerCase();
-  const scores = [];
-
+  const scored = [];
   for (const domain of domains) {
     let score = 0;
     for (const kw of domain.keywords) {
-      if (q.includes(kw.toLowerCase())) {
-        score++;
-      }
+      if (q.includes(kw.toLowerCase())) score++;
     }
-    if (score > 0) {
-      scores.push({ domain, score });
-    }
+    scored.push({ domain, score });
   }
-
-  if (scores.length === 0) {
-    return null;
-  }
-
-  scores.sort((a, b) => {
+  scored.sort((a, b) => {
     if (b.score !== a.score) return b.score - a.score;
     return b.domain.keywords.length - a.domain.keywords.length;
   });
-
-  return scores[0].domain;
+  return scored;
 }
 
 function generatePrompt(question, domain) {
@@ -634,28 +643,13 @@ function generatePrompt(question, domain) {
     return {
       role: "通才",
       badge: "通才 · 各種領域都略懂略懂",
-      text: `你的問題我還在抓方向，先請一位通才來幫你。
-
-你是一位知識廣泛的通才，擅長用清楚的方式回答各種問題。現在有人問你：
+      text: `你是一位知識廣泛的通才，擅長用清楚的方式回答各種問題。現在有人問你：
 
 「${question}」
 
 請用繁體中文回答，條理清楚、舉例說明。如果你覺得這個問題屬於某個專業領域，請在回答中建議對方找該領域的專家深入詢問。`
     };
   }
-
-  const badge = `${domain.role} · ${domain.name}`;
-
-  const text = `你是一位${domain.role}。${domain.bio}
-
-現在有人這樣問你：
-
-「${question}」
-
-${domain.instruction}
-
-回答時請使用繁體中文。開始吧：`;
-
   const plainText = `你是一位${domain.role}。${domain.bio}
 
 現在有人這樣問你：
@@ -665,8 +659,59 @@ ${domain.instruction}
 ${domain.instruction}
 
 回答時請使用繁體中文。開始吧：`;
+  return { role: domain.role, badge: `${domain.role} · ${domain.name}`, text: plainText };
+}
 
-  return { role: domain.role, badge, text: plainText };
+function renderDomainPicker(candidates, selectedIdx, question) {
+  const picker = document.getElementById('domainPicker');
+  const options = document.getElementById('domainOptions');
+  picker.style.display = '';
+  options.innerHTML = '';
+
+  const showCount = Math.min(candidates.length, 6);
+  for (let i = 0; i < showCount; i++) {
+    const c = candidates[i];
+    const btn = document.createElement('button');
+    btn.className = 'domain-opt' + (i === selectedIdx ? ' active' : '');
+    btn.textContent = c.domain.role;
+    btn.addEventListener('click', function() {
+      const result = generatePrompt(questionInput.value.trim(), c.domain);
+      applyResult(result, candidates, i);
+    });
+    options.appendChild(btn);
+  }
+
+  if (candidates.length > 6) {
+    const more = document.createElement('button');
+    more.className = 'domain-opt';
+    more.textContent = '⋯ 更多';
+    more.addEventListener('click', function() {
+      options.innerHTML = '';
+      for (let i = 0; i < candidates.length; i++) {
+        const c = candidates[i];
+        const btn = document.createElement('button');
+        btn.className = 'domain-opt' + (i === selectedIdx ? ' active' : '');
+        btn.textContent = c.domain.role;
+        btn.addEventListener('click', function() {
+          const result = generatePrompt(questionInput.value.trim(), c.domain);
+          applyResult(result, candidates, i);
+        });
+        options.appendChild(btn);
+      }
+      more.remove();
+    });
+    options.appendChild(more);
+  }
+}
+
+function applyResult(result, candidates, idx) {
+  currentPrompt = result.text;
+  roleBadge.textContent = result.badge;
+  resultText.textContent = result.text;
+  copyBtn.textContent = '複製提示詞';
+  copyBtn.classList.remove('copied');
+  const opts = document.querySelectorAll('.domain-opt');
+  opts.forEach((o, i) => { o.classList.toggle('active', i === idx); });
 }
 
 const questionInput = document.getElementById('question');
@@ -676,6 +721,7 @@ const resultCard = document.getElementById('resultCard');
 const roleBadge = document.getElementById('roleBadge');
 const resultText = document.getElementById('resultText');
 const copyBtn = document.getElementById('copyBtn');
+const pickerLabel = document.getElementById('pickerLabel');
 
 let currentPrompt = '';
 
@@ -693,57 +739,57 @@ generateBtn.addEventListener('click', function() {
   resultCard.classList.remove('visible');
 
   setTimeout(() => {
-    const domain = analyzeQuestion(q);
-    const result = generatePrompt(q, domain);
-    currentPrompt = result.text;
+    const scored = scoreDomains(q);
+    const topDomain = scored.length > 0 && scored[0].score > 0 ? scored[0].domain : null;
+    const result = generatePrompt(q, topDomain);
 
+    currentPrompt = result.text;
     roleBadge.textContent = result.badge;
     resultText.textContent = result.text;
     resultCard.classList.add('visible');
+
+    if (scored.length === 0 || scored[0].score === 0) {
+      pickerLabel.textContent = '沒抓到關鍵字，直接選一個角色：';
+      renderDomainPicker(scored.length > 0 ? scored : domains.map(d => ({ domain: d, score: 0 })), -1, q);
+    } else if (scored[0].score >= 2) {
+      pickerLabel.textContent = '角色不正確？換一個：';
+      renderDomainPicker(scored, 0, q);
+    } else {
+      pickerLabel.textContent = '不太確定，你選一個接近的：';
+      renderDomainPicker(scored, 0, q);
+    }
 
     generateBtn.disabled = false;
     statusEl.style.display = 'none';
     copyBtn.textContent = '複製提示詞';
     copyBtn.classList.remove('copied');
-  }, 400);
+  }, 300);
 });
 
 copyBtn.addEventListener('click', function() {
   if (!currentPrompt) return;
-
   if (navigator.clipboard && navigator.clipboard.writeText) {
     navigator.clipboard.writeText(currentPrompt).then(() => {
       copyBtn.textContent = '已複製 ✓';
       copyBtn.classList.add('copied');
-    }).catch(() => {
-      fallbackCopy();
-    });
-  } else {
-    fallbackCopy();
-  }
+    }).catch(() => fallbackCopy());
+  } else { fallbackCopy(); }
 });
 
 function fallbackCopy() {
-  const textarea = document.createElement('textarea');
-  textarea.value = currentPrompt;
-  textarea.style.position = 'fixed';
-  textarea.style.opacity = '0';
-  document.body.appendChild(textarea);
-  textarea.select();
-  try {
-    document.execCommand('copy');
-    copyBtn.textContent = '已複製 ✓';
-    copyBtn.classList.add('copied');
-  } catch (e) {
-    alert('無法複製，請手動選取文字複製');
-  }
-  document.body.removeChild(textarea);
+  const ta = document.createElement('textarea');
+  ta.value = currentPrompt;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); copyBtn.textContent = '已複製 ✓'; copyBtn.classList.add('copied'); }
+  catch(e) { alert('無法複製，請手動選取文字複製'); }
+  document.body.removeChild(ta);
 }
 
 questionInput.addEventListener('keydown', function(e) {
-  if (e.key === 'Enter' && e.ctrlKey) {
-    generateBtn.click();
-  }
+  if (e.key === 'Enter' && e.ctrlKey) generateBtn.click();
 });
 </script>
 </body>
