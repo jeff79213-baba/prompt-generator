@@ -320,9 +320,8 @@ const topics = [
         subtitle: "一步步來，先通分再計算",
         text: "計算：<b>1/2 + 1/3 - 1/6</b> ＝ ？",
         hint: "先算 1/2 + 1/3，通分成分母 6：3/6 + 2/6 = 5/6，再減 1/6。",
-        answer: "4/6",
-        accept: ["4/6","2/3","0.666","0.667"],
-        input: true
+        answer: "2/3",
+        nums: [2/3]
       },
       {
         title: "分數乘法",
@@ -330,8 +329,7 @@ const topics = [
         text: "計算：<b>2/3 × 3/4</b> ＝ ？",
         hint: "2×3=6，3×4=12，得到 6/12，約分後是？",
         answer: "1/2",
-        accept: ["1/2","0.5","6/12","3/6"],
-        input: true
+        nums: [1/2]
       },
       {
         title: "分數除法",
@@ -339,8 +337,7 @@ const topics = [
         text: "計算：<b>3/4 ÷ 2/5</b> ＝ ？",
         hint: "3/4 ÷ 2/5 = 3/4 × 5/2 = 15/8",
         answer: "15/8",
-        accept: ["15/8","1.875","1又7/8","1 7/8"],
-        input: true
+        nums: [15/8]
       },
       {
         title: "小數四則",
@@ -348,8 +345,7 @@ const topics = [
         text: "計算：<b>2.5 × (3.6 + 1.4)</b> ＝ ？",
         hint: "先算括號內 3.6+1.4=5.0，再算 2.5×5。",
         answer: "12.5",
-        accept: ["12.5","12.5"],
-        input: true
+        nums: [12.5]
       },
     ]
   },
@@ -364,8 +360,7 @@ const topics = [
         text: "小明 3 分鐘走了 240 公尺，他的速率是每分鐘多少公尺？",
         hint: "速率 = 距離 ÷ 時間。240 ÷ 3 = ？",
         answer: "80",
-        accept: ["80","80公尺/分","80m/min"],
-        input: true
+        nums: [80]
       },
       {
         title: "單位換算",
@@ -373,8 +368,7 @@ const topics = [
         text: "時速 72 公里，等於每秒幾公尺？<br><small>提示：1 公里 = 1000 公尺，1 小時 = 3600 秒</small>",
         hint: "72公里 = 72000公尺，1小時 = 3600秒，72000 ÷ 3600 = ？",
         answer: "20",
-        accept: ["20","20m/s","20公尺/秒"],
-        input: true
+        nums: [20]
       },
       {
         title: "速率應用",
@@ -382,8 +376,7 @@ const topics = [
         text: "甲每秒跑 5 公尺，乙每秒跑 4 公尺。兩人同時從同一地點出發，<b>30 秒後兩人相差幾公尺？</b>",
         hint: "甲 30秒走了 5×30=150公尺，乙走了 4×30=120公尺，相差？",
         answer: "30",
-        accept: ["30","30公尺","30m"],
-        input: true
+        nums: [30]
       },
     ]
   },
@@ -398,8 +391,7 @@ const topics = [
         text: "一個圓柱的底面積是 50 平方公分，高是 10 公分，體積是多少立方公分？",
         hint: "柱體體積 = 底面積 × 高 = 50 × 10",
         answer: "500",
-        accept: ["500","500立方公分","500cm³"],
-        input: true
+        nums: [500]
       },
       {
         title: "表面積",
@@ -407,8 +399,7 @@ const topics = [
         text: "一個正方體邊長 5 公分，表面積是多少平方公分？<br><small>正方體有 6 個面，每個面都是正方形</small>",
         hint: "一個面面積 = 5×5=25，總共有6個面，25×6=？",
         answer: "150",
-        accept: ["150","150平方公分","150cm²"],
-        input: true
+        nums: [150]
       },
     ]
   },
@@ -423,8 +414,7 @@ const topics = [
         text: "爸爸的體重是 75 公斤，小華的體重是爸爸的 <b>0.6 倍</b>，小華幾公斤？",
         hint: "比較量 = 基準量 × 比值 = 75 × 0.6",
         answer: "45",
-        accept: ["45","45公斤","45kg"],
-        input: true
+        nums: [45]
       },
       {
         title: "基準量未知",
@@ -432,8 +422,7 @@ const topics = [
         text: "一條繩子用了 2/3，剩下 8 公尺。繩子原來多長？",
         hint: "剩下 1/3 = 8 公尺，所以原來 = 8 ÷ (1/3) = 8 × 3",
         answer: "24",
-        accept: ["24","24公尺","24m"],
-        input: true
+        nums: [24]
       },
     ]
   },
@@ -447,18 +436,16 @@ const topics = [
         subtitle: "兩數和與兩數差",
         text: "兩數的和是 50，差是 10。這兩個數各是多少？",
         hint: "大數 = (和 + 差) ÷ 2 = (50+10)÷2，小數 = (和 - 差) ÷ 2",
-        answer: "30和20",
-        accept: ["30和20","30,20","20和30","20,30"],
-        input: true
+        answer: "30 和 20",
+        nums: [20, 30]
       },
       {
         title: "雞兔問題",
         subtitle: "假設法",
         text: "籠子裡有雞和兔共 8 隻，腳共 22 隻。雞和兔各有幾隻？<br><small>雞 2 隻腳，兔 4 隻腳</small>",
         hint: "假設全部是雞 → 8×2=16 隻腳，差 22-16=6 隻，每把一隻雞換成兔多 2 隻腳，6÷2=3 隻兔。雞=8-3=5。",
-        answer: "5隻雞3隻兔",
-        accept: ["5隻雞3隻兔","5雞3兔","雞5兔3","5,3"],
-        input: true
+        answer: "5 隻雞、3 隻兔",
+        nums: [3, 5]
       },
     ]
   },
@@ -473,8 +460,7 @@ const topics = [
         text: "全班 40 人，最喜歡的水果：蘋果 30%、香蕉 25%、橘子 45%。<br><b>喜歡香蕉的有幾人？</b>",
         hint: "40 × 25% = 40 × 0.25 = ？",
         answer: "10",
-        accept: ["10","10人","10個人"],
-        input: true
+        nums: [10]
       },
       {
         title: "圓形圖繪製",
@@ -482,8 +468,7 @@ const topics = [
         text: "全班 30 人，喜歡運動 12 人、喜歡閱讀 9 人、喜歡畫畫 9 人。<br><b>喜歡運動的圓心角是幾度？</b>",
         hint: "圓心角 = (該項目人數 ÷ 總人數) × 360° = (12÷30)×360",
         answer: "144",
-        accept: ["144","144度","144°"],
-        input: true
+        nums: [144]
       },
     ]
   },
@@ -604,14 +589,43 @@ function showHint(q) {
   hintBox.classList.add('visible');
 }
 
+function extractNumbers(str) {
+  const found = [];
+  let s = str;
+  let m;
+  const fracRe = /(\d+\.?\d*|\d*\.?\d+)\s*\/\s*(\d+\.?\d*|\d*\.?\d+)/;
+  while ((m = fracRe.exec(s)) !== null) {
+    found.push(parseFloat(m[1]) / parseFloat(m[2]));
+    s = s.slice(0, m.index) + s.slice(m.index + m[0].length);
+  }
+  const numRe = /(\d+\.?\d*|\d*\.?\d+)/g;
+  while ((m = numRe.exec(s)) !== null) {
+    found.push(parseFloat(m[0]));
+  }
+  return found;
+}
+
 function checkAnswer(q) {
   const input = document.getElementById('answerInput');
   if (!input || !input.value.trim()) return;
 
   feedbackBox.classList.remove('visible', 'correct', 'wrong');
   const userAns = input.value.trim();
-  const accept = q.accept || [q.answer];
-  const isCorrect = accept.some(a => userAns === a);
+
+  let isCorrect = false;
+
+  if (q.nums) {
+    const userNums = extractNumbers(userAns);
+    const expected = [...q.nums].sort((a, b) => a - b);
+    const got = [...userNums].sort((a, b) => a - b);
+    if (expected.length === got.length) {
+      isCorrect = expected.every((v, i) => Math.abs(v - got[i]) < 0.001);
+    }
+  }
+
+  if (!isCorrect && q.accept) {
+    isCorrect = q.accept.some(a => userAns === a);
+  }
 
   if (isCorrect) {
     const pts = hintUsed ? 5 : 10;
@@ -622,13 +636,11 @@ function checkAnswer(q) {
       ${hintUsed ? '<div style="font-size:13px;color:#888;margin-top:4px;">有用提示，得 5 分</div>' : ''}`;
     currentQIndex++;
     updateStats();
-    setTimeout(() => {
-      showQuestion();
-    }, 1500);
+    setTimeout(() => showQuestion(), 1500);
   } else {
     feedbackBox.className = 'feedback wrong visible';
     feedbackBox.innerHTML = `<div class="fb-title">再想想看</div>
-      <div>你的答案「${userAns}」不正確，再試一次！</div>
+      <div>你的答案「${userAns}」不對，再試一次！</div>
       <div style="margin-top:8px;"><button class="btn btn-hint" onclick="showHint(currentTopic.questions[currentQIndex])" style="padding:6px 14px;font-size:13px;">看提示</button></div>`;
     input.value = '';
     input.focus();
