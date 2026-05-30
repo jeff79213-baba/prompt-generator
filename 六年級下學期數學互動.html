@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>六年級下學期數學互動教室</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    background: #eef1f7;
+    color: #1a1a2e;
+    min-height: 100vh;
+  }
+  .header {
+    background: linear-gradient(135deg, #43c6ac, #2a8f7a);
+    color: #fff;
+    padding: 30px 20px 24px;
+    text-align: center;
+  }
+  .header h1 { font-size: 28px; font-weight: 800; letter-spacing: 1px; }
+  .header p { font-size: 14px; opacity: .85; margin-top: 6px; }
+  .header .score-bar {
+    display: flex; justify-content: center; gap: 30px;
+    margin-top: 14px; font-size: 14px; font-weight: 600;
+  }
+  .header .score-bar span { background: rgba(255,255,255,.2); padding: 4px 14px; border-radius: 20px; }
+  .container { max-width: 700px; margin: 0 auto; padding: 20px 16px 40px; }
+  .topic-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .topic-btn {
+    padding: 16px 12px;
+    border-radius: 14px;
+    border: 2px solid #dde1e7;
+    background: #fff;
+    cursor: pointer;
+    transition: all .2s;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+    color: #444;
+    font-family: inherit;
+    line-height: 1.4;
+  }
+  .topic-btn:hover { border-color: #43c6ac; color: #2a8f7a; background: #e8faf5; }
+  .topic-btn.active { border-color: #43c6ac; background: linear-gradient(135deg, #43c6ac, #2a8f7a); color: #fff; }
+  .topic-btn .badge {
+    display: block;
+    font-size: 11px;
+    font-weight: 400;
+    opacity: .7;
+    margin-top: 4px;
+  }
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px 22px;
+    box-shadow: 0 2px 16px rgba(0,0,0,.08);
+    margin-bottom: 16px;
+    display: none;
+  }
+  .card.visible { display: block; }
+  .card .step-indicator {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .card .step-indicator .dot {
+    display: inline-block;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: #ddd;
+    margin: 0 3px;
+  }
+  .card .step-indicator .dot.filled { background: #43c6ac; }
+  .card .step-indicator .dot.wrong { background: #e74c3c; }
+  .card h2 { font-size: 20px; margin-bottom: 6px; color: #1a1a2e; }
+  .card .subtitle { font-size: 14px; color: #666; margin-bottom: 16px; }
+  .card .question-box {
+    background: #f8fafb;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 16px;
+    border-left: 4px solid #43c6ac;
+    font-size: 17px;
+    line-height: 1.7;
+  }
+  .card .question-box .highlight {
+    display: inline-block;
+    background: #fff3cd;
+    padding: 0 6px;
+    border-radius: 4px;
+  }
+  .input-group {
+    margin-bottom: 14px;
+  }
+  .input-group label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 6px;
+  }
+  .input-group input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 2px solid #dde1e7;
+    border-radius: 10px;
+    font-size: 18px;
+    font-family: inherit;
+    transition: border .2s;
+    background: #fafbfc;
+  }
+  .input-group input:focus {
+    outline: none;
+    border-color: #43c6ac;
+    background: #fff;
+  }
+  .options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .option-btn {
+    padding: 14px 10px;
+    border-radius: 12px;
+    border: 2px solid #dde1e7;
+    background: #fafbfc;
+    cursor: pointer;
+    transition: all .15s;
+    font-size: 16px;
+    font-weight: 600;
+    text-align: center;
+    color: #333;
+    font-family: inherit;
+  }
+  .option-btn:hover { border-color: #43c6ac; background: #e8faf5; }
+  .option-btn.selected { border-color: #43c6ac; background: #43c6ac; color: #fff; }
+  .option-btn.correct { border-color: #27ae60; background: #d5f5e3; color: #1a7a3a; }
+  .option-btn.wrong { border-color: #e74c3c; background: #fadbd8; color: #922b21; }
+  .card .action-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 4px;
+  }
+  .btn {
+    flex: 1;
+    padding: 13px 0;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all .2s;
+    font-family: inherit;
+    letter-spacing: .5px;
+  }
+  .btn:active { transform: scale(.97); }
+  .btn-primary {
+    background: linear-gradient(135deg, #43c6ac, #2a8f7a);
+    color: #fff;
+  }
+  .btn-primary:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+  .btn-secondary {
+    background: #eef1f7;
+    color: #555;
+  }
+  .btn-secondary:hover { background: #e4e8f0; }
+  .btn-hint {
+    background: #fff8e1;
+    color: #8a6d00;
+    font-size: 14px;
+  }
+  .btn-hint:hover { background: #ffefb3; }
+  .feedback {
+    padding: 14px 16px;
+    border-radius: 12px;
+    margin-top: 14px;
+    font-size: 15px;
+    line-height: 1.6;
+    display: none;
+  }
+  .feedback.visible { display: block; }
+  .feedback.correct {
+    background: #d5f5e3;
+    border: 1px solid #82e0aa;
+    color: #1a7a3a;
+  }
+  .feedback.wrong {
+    background: #fadbd8;
+    border: 1px solid #f1948a;
+    color: #922b21;
+  }
+  .feedback.hint {
+    background: #fff8e1;
+    border: 1px solid #ffe0a0;
+    color: #8a6d00;
+  }
+  .feedback .fb-title { font-weight: 700; font-size: 16px; margin-bottom: 4px; }
+  .feedback .fb-title::before { margin-right: 6px; }
+  .feedback.correct .fb-title::before { content: '\2705'; }
+  .feedback.wrong .fb-title::before { content: '\274c'; }
+  .feedback.hint .fb-title::before { content: '\1f4a1\fe0f'; }
+  .progress-wrap {
+    background: #eef1f7;
+    border-radius: 10px;
+    height: 8px;
+    margin-top: 6px;
+    overflow: hidden;
+  }
+  .progress-wrap .bar {
+    height: 100%;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #43c6ac, #2a8f7a);
+    transition: width .4s;
+    width: 0%;
+  }
+  .reward-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.5);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+  }
+  .reward-overlay.visible { display: flex; }
+  .reward-box {
+    background: #fff;
+    border-radius: 24px;
+    padding: 40px 32px;
+    max-width: 360px;
+    width: 90%;
+    text-align: center;
+    animation: pop .4s ease;
+  }
+  @keyframes pop {
+    0% { transform: scale(.7); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .reward-box .emoji { font-size: 64px; margin-bottom: 10px; }
+  .reward-box h2 { font-size: 24px; color: #2a8f7a; margin-bottom: 6px; }
+  .reward-box p { font-size: 15px; color: #666; margin-bottom: 18px; }
+  .reward-box .btn { max-width: 200px; margin: 0 auto; }
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: #888;
+  }
+  .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
+  .empty-state p { font-size: 15px; }
+  @media (max-width: 500px) {
+    .topic-grid { grid-template-columns: 1fr; }
+    .options { grid-template-columns: 1fr; }
+    .header h1 { font-size: 22px; }
+    .container { padding: 16px 12px 30px; }
+    .card { padding: 18px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>六年級數學互動教室</h1>
+  <p>下學期 · 點選單元開始挑戰</p>
+  <div class="score-bar">
+    <span id="scoreDisplay">得分：0</span>
+    <span id="progressDisplay">完成：0%</span>
+  </div>
+</div>
+
+<div class="container">
+
+  <div class="topic-grid" id="topicGrid"></div>
+
+  <div class="card" id="questionCard">
+    <div class="step-indicator" id="stepIndicator"></div>
+    <h2 id="questionTitle"></h2>
+    <div class="subtitle" id="questionSubtitle"></div>
+    <div class="question-box" id="questionText"></div>
+    <div id="inputArea"></div>
+    <div class="action-row">
+      <button class="btn btn-hint" id="hintBtn" style="flex:0 0 auto; padding:13px 18px;">提示</button>
+      <button class="btn btn-primary" id="submitBtn">送出答案</button>
+    </div>
+    <div class="progress-wrap" style="margin-top:16px;"><div class="bar" id="progressBar"></div></div>
+    <div id="hintBox" class="feedback hint"></div>
+    <div id="feedbackBox" class="feedback"></div>
+  </div>
+
+  <div class="empty-state" id="emptyState">
+    <div class="icon">選擇一個單元開始吧！</div>
+  </div>
+</div>
+
+<div class="reward-overlay" id="rewardOverlay">
+  <div class="reward-box">
+    <div class="emoji">🎉</div>
+    <h2 id="rewardTitle">太棒了！</h2>
+    <p id="rewardDesc">你完成了這個單元的所有題目！</p>
+    <button class="btn btn-primary" onclick="closeReward()">繼續挑戰</button>
+  </div>
+</div>
+
+<script>
+const topics = [
+  {
+    id: "fraction-decimal",
+    name: "分數與小數混合計算",
+    badge: "四則運算",
+    questions: [
+      {
+        title: "分數加減混合",
+        subtitle: "一步步來，先通分再計算",
+        text: "計算：<b>1/2 + 1/3 - 1/6</b> ＝ ？",
+        hint: "先算 1/2 + 1/3，通分成分母 6：3/6 + 2/6 = 5/6，再減 1/6。",
+        answer: "4/6",
+        accept: ["4/6","2/3","0.666","0.667"],
+        input: true
+      },
+      {
+        title: "分數乘法",
+        subtitle: "分子乘分子、分母乘分母",
+        text: "計算：<b>2/3 × 3/4</b> ＝ ？",
+        hint: "2×3=6，3×4=12，得到 6/12，約分後是？",
+        answer: "1/2",
+        accept: ["1/2","0.5","6/12","3/6"],
+        input: true
+      },
+      {
+        title: "分數除法",
+        subtitle: "除以一個數等於乘它的倒數",
+        text: "計算：<b>3/4 ÷ 2/5</b> ＝ ？",
+        hint: "3/4 ÷ 2/5 = 3/4 × 5/2 = 15/8",
+        answer: "15/8",
+        accept: ["15/8","1.875","1又7/8","1 7/8"],
+        input: true
+      },
+      {
+        title: "小數四則",
+        subtitle: "先乘除後加減，括號優先",
+        text: "計算：<b>2.5 × (3.6 + 1.4)</b> ＝ ？",
+        hint: "先算括號內 3.6+1.4=5.0，再算 2.5×5。",
+        answer: "12.5",
+        accept: ["12.5","12.5"],
+        input: true
+      },
+    ]
+  },
+  {
+    id: "speed",
+    name: "速率",
+    badge: "距離 ÷ 時間",
+    questions: [
+      {
+        title: "速率的意義",
+        subtitle: "每秒、每分、每小時走的距離",
+        text: "小明 3 分鐘走了 240 公尺，他的速率是每分鐘多少公尺？",
+        hint: "速率 = 距離 ÷ 時間。240 ÷ 3 = ？",
+        answer: "80",
+        accept: ["80","80公尺/分","80m/min"],
+        input: true
+      },
+      {
+        title: "單位換算",
+        subtitle: "公尺/秒 → 公里/時",
+        text: "時速 72 公里，等於每秒幾公尺？<br><small>提示：1 公里 = 1000 公尺，1 小時 = 3600 秒</small>",
+        hint: "72公里 = 72000公尺，1小時 = 3600秒，72000 ÷ 3600 = ？",
+        answer: "20",
+        accept: ["20","20m/s","20公尺/秒"],
+        input: true
+      },
+      {
+        title: "速率應用",
+        subtitle: "同時出發，誰先到？",
+        text: "甲每秒跑 5 公尺，乙每秒跑 4 公尺。兩人同時從同一地點出發，<b>30 秒後兩人相差幾公尺？</b>",
+        hint: "甲 30秒走了 5×30=150公尺，乙走了 4×30=120公尺，相差？",
+        answer: "30",
+        accept: ["30","30公尺","30m"],
+        input: true
+      },
+    ]
+  },
+  {
+    id: "volume",
+    name: "形體關係·體積·表面積",
+    badge: "柱體",
+    questions: [
+      {
+        title: "柱體體積",
+        subtitle: "底面積 × 高",
+        text: "一個圓柱的底面積是 50 平方公分，高是 10 公分，體積是多少立方公分？",
+        hint: "柱體體積 = 底面積 × 高 = 50 × 10",
+        answer: "500",
+        accept: ["500","500立方公分","500cm³"],
+        input: true
+      },
+      {
+        title: "表面積",
+        subtitle: "所有面的面積總和",
+        text: "一個正方體邊長 5 公分，表面積是多少平方公分？<br><small>正方體有 6 個面，每個面都是正方形</small>",
+        hint: "一個面面積 = 5×5=25，總共有6個面，25×6=？",
+        answer: "150",
+        accept: ["150","150平方公分","150cm²"],
+        input: true
+      },
+    ]
+  },
+  {
+    id: "base-compare",
+    name: "基準量與比較量",
+    badge: "基準 × 倍數",
+    questions: [
+      {
+        title: "認識基準量",
+        subtitle: "基準量 × 比值 = 比較量",
+        text: "爸爸的體重是 75 公斤，小華的體重是爸爸的 <b>0.6 倍</b>，小華幾公斤？",
+        hint: "比較量 = 基準量 × 比值 = 75 × 0.6",
+        answer: "45",
+        accept: ["45","45公斤","45kg"],
+        input: true
+      },
+      {
+        title: "基準量未知",
+        subtitle: "反過來求基準量",
+        text: "一條繩子用了 2/3，剩下 8 公尺。繩子原來多長？",
+        hint: "剩下 1/3 = 8 公尺，所以原來 = 8 ÷ (1/3) = 8 × 3",
+        answer: "24",
+        accept: ["24","24公尺","24m"],
+        input: true
+      },
+    ]
+  },
+  {
+    id: "problem-solving",
+    name: "怎樣解題",
+    badge: "和差·雞兔",
+    questions: [
+      {
+        title: "和差問題",
+        subtitle: "兩數和與兩數差",
+        text: "兩數的和是 50，差是 10。這兩個數各是多少？",
+        hint: "大數 = (和 + 差) ÷ 2 = (50+10)÷2，小數 = (和 - 差) ÷ 2",
+        answer: "30和20",
+        accept: ["30和20","30,20","20和30","20,30"],
+        input: true
+      },
+      {
+        title: "雞兔問題",
+        subtitle: "假設法",
+        text: "籠子裡有雞和兔共 8 隻，腳共 22 隻。雞和兔各有幾隻？<br><small>雞 2 隻腳，兔 4 隻腳</small>",
+        hint: "假設全部是雞 → 8×2=16 隻腳，差 22-16=6 隻，每把一隻雞換成兔多 2 隻腳，6÷2=3 隻兔。雞=8-3=5。",
+        answer: "5隻雞3隻兔",
+        accept: ["5隻雞3隻兔","5雞3兔","雞5兔3","5,3"],
+        input: true
+      },
+    ]
+  },
+  {
+    id: "pie-chart",
+    name: "圓形圖",
+    badge: "統計",
+    questions: [
+      {
+        title: "圓形圖判讀",
+        subtitle: "從圓形圖看比例",
+        text: "全班 40 人，最喜歡的水果：蘋果 30%、香蕉 25%、橘子 45%。<br><b>喜歡香蕉的有幾人？</b>",
+        hint: "40 × 25% = 40 × 0.25 = ？",
+        answer: "10",
+        accept: ["10","10人","10個人"],
+        input: true
+      },
+      {
+        title: "圓形圖繪製",
+        subtitle: "按比例算出圓心角",
+        text: "全班 30 人，喜歡運動 12 人、喜歡閱讀 9 人、喜歡畫畫 9 人。<br><b>喜歡運動的圓心角是幾度？</b>",
+        hint: "圓心角 = (該項目人數 ÷ 總人數) × 360° = (12÷30)×360",
+        answer: "144",
+        accept: ["144","144度","144°"],
+        input: true
+      },
+    ]
+  },
+];
+
+let currentTopic = null;
+let currentQIndex = 0;
+let score = 0;
+let completed = {};
+let hintUsed = false;
+
+const topicGrid = document.getElementById('topicGrid');
+const questionCard = document.getElementById('questionCard');
+const emptyState = document.getElementById('emptyState');
+const stepIndicator = document.getElementById('stepIndicator');
+const questionTitle = document.getElementById('questionTitle');
+const questionSubtitle = document.getElementById('questionSubtitle');
+const questionText = document.getElementById('questionText');
+const inputArea = document.getElementById('inputArea');
+const submitBtn = document.getElementById('submitBtn');
+const hintBtn = document.getElementById('hintBtn');
+const feedbackBox = document.getElementById('feedbackBox');
+const hintBox = document.getElementById('hintBox');
+const progressBar = document.getElementById('progressBar');
+const scoreDisplay = document.getElementById('scoreDisplay');
+const progressDisplay = document.getElementById('progressDisplay');
+const rewardOverlay = document.getElementById('rewardOverlay');
+const rewardTitle = document.getElementById('rewardTitle');
+const rewardDesc = document.getElementById('rewardDesc');
+
+function init() {
+  topics.forEach((t, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'topic-btn';
+    btn.innerHTML = `${t.name} <span class="badge">${t.badge}</span>`;
+    btn.dataset.id = t.id;
+    btn.addEventListener('click', () => selectTopic(t.id));
+    topicGrid.appendChild(btn);
+  });
+  updateStats();
+}
+
+function selectTopic(id) {
+  const t = topics.find(x => x.id === id);
+  if (!t) return;
+  currentTopic = t;
+  currentQIndex = 0;
+  hintUsed = false;
+  document.querySelectorAll('.topic-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.id === id);
+  });
+  emptyState.style.display = 'none';
+  questionCard.classList.add('visible');
+  showQuestion();
+}
+
+function showQuestion() {
+  if (!currentTopic) return;
+  const qs = currentTopic.questions;
+  if (currentQIndex >= qs.length) {
+    showReward();
+    return;
+  }
+  const q = qs[currentQIndex];
+  hintUsed = false;
+  hintBox.classList.remove('visible');
+  feedbackBox.classList.remove('visible', 'correct', 'wrong');
+  submitBtn.disabled = false;
+  submitBtn.textContent = '送出答案';
+
+  questionTitle.textContent = q.title;
+  questionSubtitle.textContent = q.subtitle;
+  questionText.innerHTML = q.text;
+  buildInput(q);
+  buildStepIndicator();
+  hintBtn.onclick = () => showHint(q);
+  submitBtn.onclick = () => checkAnswer(q);
+  updateProgress();
+}
+
+function buildInput(q) {
+  inputArea.innerHTML = '';
+  const inputGroup = document.createElement('div');
+  inputGroup.className = 'input-group';
+  const label = document.createElement('label');
+  label.textContent = '你的答案：';
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.id = 'answerInput';
+  input.placeholder = '輸入你的答案...';
+  input.autocomplete = 'off';
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') checkAnswer(q);
+  });
+  inputGroup.appendChild(label);
+  inputGroup.appendChild(input);
+  inputArea.appendChild(inputGroup);
+  setTimeout(() => input.focus(), 100);
+}
+
+function buildStepIndicator() {
+  if (!currentTopic) return;
+  const qs = currentTopic.questions;
+  let html = '';
+  for (let i = 0; i < qs.length; i++) {
+    let cls = 'dot';
+    if (i < currentQIndex) cls += ' filled';
+    if (i === currentQIndex) cls += ' filled';
+    html += `<span class="${cls}"></span> `;
+  }
+  html += ` 第 ${currentQIndex+1}/${qs.length} 題`;
+  stepIndicator.innerHTML = html;
+}
+
+function showHint(q) {
+  hintUsed = true;
+  hintBox.innerHTML = `<div class="fb-title">提示</div>${q.hint}`;
+  hintBox.classList.add('visible');
+}
+
+function checkAnswer(q) {
+  const input = document.getElementById('answerInput');
+  if (!input || !input.value.trim()) return;
+
+  feedbackBox.classList.remove('visible', 'correct', 'wrong');
+  const userAns = input.value.trim();
+  const accept = q.accept || [q.answer];
+  const isCorrect = accept.some(a => userAns === a);
+
+  if (isCorrect) {
+    const pts = hintUsed ? 5 : 10;
+    score += pts;
+    feedbackBox.className = 'feedback correct visible';
+    feedbackBox.innerHTML = `<div class="fb-title">正確！+${pts}分</div>
+      <div>答案：${q.answer}</div>
+      ${hintUsed ? '<div style="font-size:13px;color:#888;margin-top:4px;">有用提示，得 5 分</div>' : ''}`;
+    currentQIndex++;
+    updateStats();
+    setTimeout(() => {
+      showQuestion();
+    }, 1500);
+  } else {
+    feedbackBox.className = 'feedback wrong visible';
+    feedbackBox.innerHTML = `<div class="fb-title">再想想看</div>
+      <div>你的答案「${userAns}」不正確，再試一次！</div>
+      <div style="margin-top:8px;"><button class="btn btn-hint" onclick="showHint(currentTopic.questions[currentQIndex])" style="padding:6px 14px;font-size:13px;">看提示</button></div>`;
+    input.value = '';
+    input.focus();
+  }
+  submitBtn.disabled = false;
+}
+
+function showReward() {
+  rewardTitle.textContent = `完成了 ${currentTopic.name}！`;
+  rewardDesc.textContent = `你已經完成這個單元所有題目！總得分：${score} 分`;
+  if (!completed[currentTopic.id]) {
+    completed[currentTopic.id] = true;
+  }
+  rewardOverlay.classList.add('visible');
+  updateStats();
+}
+
+function closeReward() {
+  rewardOverlay.classList.remove('visible');
+  questionCard.classList.remove('visible');
+  emptyState.style.display = 'block';
+  currentTopic = null;
+  document.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('active'));
+}
+
+function updateStats() {
+  const totalTopics = topics.length;
+  const done = Object.keys(completed).length;
+  progressDisplay.textContent = `完成：${Math.round(done/totalTopics*100)}%`;
+  scoreDisplay.textContent = `得分：${score}`;
+}
+
+function updateProgress() {
+  if (!currentTopic) return;
+  const pct = ((currentQIndex) / currentTopic.questions.length) * 100;
+  progressBar.style.width = pct + '%';
+}
+
+init();
+</script>
+</body>
+</html>
