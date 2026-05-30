@@ -15,59 +15,91 @@
   .header {
     background: linear-gradient(135deg, #43c6ac, #2a8f7a);
     color: #fff;
-    padding: 30px 20px 24px;
+    padding: 24px 20px 18px;
     text-align: center;
   }
-  .header h1 { font-size: 28px; font-weight: 800; letter-spacing: 1px; }
-  .header p { font-size: 14px; opacity: .85; margin-top: 6px; }
-  .header .score-bar {
-    display: flex; justify-content: center; gap: 30px;
-    margin-top: 14px; font-size: 14px; font-weight: 600;
+  .header h1 { font-size: 24px; font-weight: 800; letter-spacing: 1px; }
+  .header .rank-badge {
+    display: inline-block;
+    background: rgba(255,255,255,.25);
+    border-radius: 30px;
+    padding: 4px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    margin-top: 6px;
   }
-  .header .score-bar span { background: rgba(255,255,255,.2); padding: 4px 14px; border-radius: 20px; }
-  .container { max-width: 700px; margin: 0 auto; padding: 20px 16px 40px; }
+  .header .score-bar {
+    display: flex; justify-content: center; gap: 20px;
+    margin-top: 12px; font-size: 13px; font-weight: 600;
+    flex-wrap: wrap;
+  }
+  .header .score-bar span {
+    background: rgba(255,255,255,.18);
+    padding: 3px 14px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background .2s;
+  }
+  .header .score-bar span:hover { background: rgba(255,255,255,.35); }
+  .container { max-width: 700px; margin: 0 auto; padding: 16px 16px 40px; }
   .topic-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    margin-bottom: 20px;
+    gap: 10px;
+    margin-bottom: 16px;
   }
   .topic-btn {
-    padding: 16px 12px;
+    padding: 14px 10px;
     border-radius: 14px;
     border: 2px solid #dde1e7;
     background: #fff;
     cursor: pointer;
     transition: all .2s;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 700;
     text-align: center;
     color: #444;
     font-family: inherit;
-    line-height: 1.4;
+    line-height: 1.3;
+    position: relative;
   }
   .topic-btn:hover { border-color: #43c6ac; color: #2a8f7a; background: #e8faf5; }
   .topic-btn.active { border-color: #43c6ac; background: linear-gradient(135deg, #43c6ac, #2a8f7a); color: #fff; }
-  .topic-btn .badge {
+  .topic-btn .tbadge {
     display: block;
     font-size: 11px;
     font-weight: 400;
     opacity: .7;
-    margin-top: 4px;
+    margin-top: 2px;
   }
+  .topic-btn .checkmark {
+    position: absolute;
+    top: -6px; right: -6px;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    background: #f1c40f;
+    color: #fff;
+    font-size: 13px;
+    line-height: 22px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,.2);
+    display: none;
+  }
+  .topic-btn .checkmark.show { display: block; }
   .card {
     background: #fff;
     border-radius: 16px;
-    padding: 24px 22px;
+    padding: 20px 18px;
     box-shadow: 0 2px 16px rgba(0,0,0,.08);
-    margin-bottom: 16px;
+    margin-bottom: 14px;
     display: none;
   }
-  .card.visible { display: block; }
+  .card.visible { display: block; animation: fadeUp .3s ease; }
+  @keyframes fadeUp { 0% { opacity: 0; transform: translateY(10px); } 100% { opacity: 1; transform: translateY(0); } }
   .card .step-indicator {
     font-size: 13px;
     color: #888;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     font-weight: 600;
   }
   .card .step-indicator .dot {
@@ -75,43 +107,34 @@
     width: 10px; height: 10px;
     border-radius: 50%;
     background: #ddd;
-    margin: 0 3px;
+    margin: 0 2px;
   }
   .card .step-indicator .dot.filled { background: #43c6ac; }
-  .card .step-indicator .dot.wrong { background: #e74c3c; }
-  .card h2 { font-size: 20px; margin-bottom: 6px; color: #1a1a2e; }
-  .card .subtitle { font-size: 14px; color: #666; margin-bottom: 16px; }
+  .card h2 { font-size: 18px; margin-bottom: 4px; color: #1a1a2e; }
+  .card .subtitle { font-size: 13px; color: #666; margin-bottom: 12px; }
   .card .question-box {
     background: #f8fafb;
     border-radius: 12px;
-    padding: 18px;
-    margin-bottom: 16px;
+    padding: 16px;
+    margin-bottom: 14px;
     border-left: 4px solid #43c6ac;
-    font-size: 17px;
+    font-size: 16px;
     line-height: 1.7;
   }
-  .card .question-box .highlight {
-    display: inline-block;
-    background: #fff3cd;
-    padding: 0 6px;
-    border-radius: 4px;
-  }
-  .input-group {
-    margin-bottom: 14px;
-  }
+  .input-group { margin-bottom: 12px; }
   .input-group label {
     display: block;
     font-size: 14px;
     font-weight: 600;
     color: #555;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
   }
   .input-group input {
     width: 100%;
-    padding: 12px 14px;
+    padding: 11px 14px;
     border: 2px solid #dde1e7;
     border-radius: 10px;
-    font-size: 18px;
+    font-size: 17px;
     font-family: inherit;
     transition: border .2s;
     background: #fafbfc;
@@ -121,40 +144,17 @@
     border-color: #43c6ac;
     background: #fff;
   }
-  .options {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin-bottom: 16px;
-  }
-  .option-btn {
-    padding: 14px 10px;
-    border-radius: 12px;
-    border: 2px solid #dde1e7;
-    background: #fafbfc;
-    cursor: pointer;
-    transition: all .15s;
-    font-size: 16px;
-    font-weight: 600;
-    text-align: center;
-    color: #333;
-    font-family: inherit;
-  }
-  .option-btn:hover { border-color: #43c6ac; background: #e8faf5; }
-  .option-btn.selected { border-color: #43c6ac; background: #43c6ac; color: #fff; }
-  .option-btn.correct { border-color: #27ae60; background: #d5f5e3; color: #1a7a3a; }
-  .option-btn.wrong { border-color: #e74c3c; background: #fadbd8; color: #922b21; }
   .card .action-row {
     display: flex;
     gap: 10px;
-    margin-top: 4px;
+    margin-top: 2px;
   }
   .btn {
     flex: 1;
-    padding: 13px 0;
+    padding: 12px 0;
     border: none;
     border-radius: 10px;
-    font-size: 16px;
+    font-size: 15px;
     font-weight: 700;
     cursor: pointer;
     transition: all .2s;
@@ -167,51 +167,32 @@
     color: #fff;
   }
   .btn-primary:disabled { opacity: .4; cursor: not-allowed; transform: none; }
-  .btn-secondary {
-    background: #eef1f7;
-    color: #555;
-  }
-  .btn-secondary:hover { background: #e4e8f0; }
   .btn-hint {
     background: #fff8e1;
     color: #8a6d00;
-    font-size: 14px;
+    font-size: 13px;
+    flex: 0 0 auto;
+    padding: 12px 16px;
   }
   .btn-hint:hover { background: #ffefb3; }
   .feedback {
-    padding: 14px 16px;
-    border-radius: 12px;
-    margin-top: 14px;
-    font-size: 15px;
-    line-height: 1.6;
+    padding: 12px 14px;
+    border-radius: 10px;
+    margin-top: 12px;
+    font-size: 14px;
+    line-height: 1.5;
     display: none;
   }
-  .feedback.visible { display: block; }
-  .feedback.correct {
-    background: #d5f5e3;
-    border: 1px solid #82e0aa;
-    color: #1a7a3a;
-  }
-  .feedback.wrong {
-    background: #fadbd8;
-    border: 1px solid #f1948a;
-    color: #922b21;
-  }
-  .feedback.hint {
-    background: #fff8e1;
-    border: 1px solid #ffe0a0;
-    color: #8a6d00;
-  }
-  .feedback .fb-title { font-weight: 700; font-size: 16px; margin-bottom: 4px; }
-  .feedback .fb-title::before { margin-right: 6px; }
-  .feedback.correct .fb-title::before { content: '\2705'; }
-  .feedback.wrong .fb-title::before { content: '\274c'; }
-  .feedback.hint .fb-title::before { content: '\1f4a1\fe0f'; }
+  .feedback.visible { display: block; animation: fadeUp .25s ease; }
+  .feedback.correct { background: #d5f5e3; border: 1px solid #82e0aa; color: #1a7a3a; }
+  .feedback.wrong { background: #fadbd8; border: 1px solid #f1948a; color: #922b21; }
+  .feedback.hint { background: #fff8e1; border: 1px solid #ffe0a0; color: #8a6d00; }
+  .feedback .fb-title { font-weight: 700; font-size: 15px; margin-bottom: 2px; }
   .progress-wrap {
     background: #eef1f7;
     border-radius: 10px;
-    height: 8px;
-    margin-top: 6px;
+    height: 6px;
+    margin-top: 12px;
     overflow: hidden;
   }
   .progress-wrap .bar {
@@ -234,51 +215,176 @@
   .reward-box {
     background: #fff;
     border-radius: 24px;
-    padding: 40px 32px;
+    padding: 32px 28px;
     max-width: 360px;
     width: 90%;
     text-align: center;
     animation: pop .4s ease;
+    max-height: 90vh;
+    overflow-y: auto;
   }
   @keyframes pop {
     0% { transform: scale(.7); opacity: 0; }
     100% { transform: scale(1); opacity: 1; }
   }
-  .reward-box .emoji { font-size: 64px; margin-bottom: 10px; }
-  .reward-box h2 { font-size: 24px; color: #2a8f7a; margin-bottom: 6px; }
-  .reward-box p { font-size: 15px; color: #666; margin-bottom: 18px; }
-  .reward-box .btn { max-width: 200px; margin: 0 auto; }
+  .reward-box .big-icon { font-size: 56px; margin-bottom: 6px; }
+  .reward-box h2 { font-size: 22px; color: #2a8f7a; margin-bottom: 4px; }
+  .reward-box p { font-size: 14px; color: #666; margin-bottom: 12px; }
+  .reward-box .btn { max-width: 180px; margin: 4px auto; }
+  .reward-box .badge-got {
+    display: inline-block;
+    background: #fff8e1;
+    border: 2px solid #f1c40f;
+    border-radius: 16px;
+    padding: 8px 20px;
+    margin: 6px 4px;
+    font-size: 14px;
+    font-weight: 700;
+  }
   .empty-state {
     text-align: center;
     padding: 40px 20px;
     color: #888;
   }
-  .empty-state .icon { font-size: 48px; margin-bottom: 12px; }
-  .empty-state p { font-size: 15px; }
+  .empty-state .big-icon { font-size: 48px; margin-bottom: 10px; }
+  .empty-state p { font-size: 14px; }
+
+  .achieve-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.5);
+    z-index: 200;
+    justify-content: center;
+    align-items: center;
+  }
+  .achieve-overlay.visible { display: flex; }
+  .achieve-box {
+    background: #fff;
+    border-radius: 24px;
+    padding: 28px 24px;
+    max-width: 480px;
+    width: 92%;
+    max-height: 85vh;
+    overflow-y: auto;
+    animation: pop .4s ease;
+  }
+  .achieve-box h2 { font-size: 20px; margin-bottom: 4px; text-align: center; color: #2a8f7a; }
+  .achieve-box .sub { text-align: center; font-size: 13px; color: #888; margin-bottom: 16px; }
+  .achieve-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .achieve-item {
+    text-align: center;
+    padding: 14px 6px;
+    border-radius: 14px;
+    background: #f8f9fb;
+    border: 2px solid #eef1f7;
+  }
+  .achieve-item .icon { font-size: 32px; }
+  .achieve-item .name { font-size: 12px; font-weight: 700; margin-top: 4px; color: #444; }
+  .achieve-item.locked { opacity: .35; filter: grayscale(.8); }
+  .achieve-item.locked .icon { content: '🔒'; }
+  .achieve-box .rank-section {
+    text-align: center;
+    margin-bottom: 16px;
+  }
+  .achieve-box .rank-section .current-rank {
+    font-size: 18px;
+    font-weight: 800;
+    color: #2a8f7a;
+  }
+  .achieve-box .rank-section .next-rank {
+    font-size: 13px;
+    color: #888;
+  }
+  .achieve-box .rank-bar {
+    background: #eef1f7;
+    border-radius: 10px;
+    height: 8px;
+    margin: 8px 16px 14px;
+    overflow: hidden;
+  }
+  .achieve-box .rank-bar .fill {
+    height: 100%;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #f1c40f, #e67e22);
+    transition: width .4s;
+  }
+  .certificate {
+    background: linear-gradient(135deg, #fffef5, #fff8e1);
+    border: 3px double #c9a84c;
+    border-radius: 16px;
+    padding: 28px 20px;
+    text-align: center;
+    margin-bottom: 12px;
+  }
+  .certificate .title { font-size: 20px; font-weight: 800; color: #8a6d00; }
+  .certificate .subtitle { font-size: 14px; color: #666; margin: 4px 0; }
+  .certificate .name-line { font-size: 22px; font-weight: 800; color: #2a8f7a; margin: 8px 0; letter-spacing: 2px; }
+  .certificate .footer-text { font-size: 12px; color: #999; margin-top: 8px; }
+  .btn-small {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    background: #eef1f7;
+    color: #555;
+    font-family: inherit;
+  }
+  .btn-small:hover { background: #e4e8f0; }
+  .btn-gold {
+    background: linear-gradient(135deg, #f1c40f, #e67e22);
+    color: #fff;
+  }
+  .btn-gold:hover { opacity: .9; }
+  .toast {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #2a8f7a;
+    color: #fff;
+    padding: 10px 24px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 700;
+    z-index: 300;
+    display: none;
+    box-shadow: 0 4px 20px rgba(0,0,0,.2);
+    animation: fadeUp .3s ease;
+  }
+  .toast.show { display: block; }
   @media (max-width: 500px) {
     .topic-grid { grid-template-columns: 1fr; }
-    .options { grid-template-columns: 1fr; }
-    .header h1 { font-size: 22px; }
-    .container { padding: 16px 12px 30px; }
-    .card { padding: 18px 16px; }
+    .achieve-grid { grid-template-columns: repeat(2, 1fr); }
+    .header h1 { font-size: 20px; }
+    .container { padding: 12px 10px 30px; }
+    .card { padding: 16px 14px; }
   }
 </style>
 </head>
 <body>
 
+<div class="toast" id="toast"></div>
+
 <div class="header">
-  <h1>六年級數學互動教室</h1>
-  <p>下學期 · 點選單元開始挑戰</p>
+  <h1>🏆 六年級數學互動教室</h1>
+  <div class="rank-badge" id="rankBadge">🌟 數學小種子</div>
   <div class="score-bar">
-    <span id="scoreDisplay">得分：0</span>
-    <span id="progressDisplay">完成：0%</span>
+    <span id="scoreDisplay" onclick="showAchievements()">⭐ 0 分</span>
+    <span id="progressDisplay">📊 完成 0%</span>
+    <span id="badgeCountDisplay" onclick="showAchievements()">🏅 0 徽章</span>
   </div>
 </div>
 
 <div class="container">
-
   <div class="topic-grid" id="topicGrid"></div>
-
   <div class="card" id="questionCard">
     <div class="step-indicator" id="stepIndicator"></div>
     <h2 id="questionTitle"></h2>
@@ -286,25 +392,46 @@
     <div class="question-box" id="questionText"></div>
     <div id="inputArea"></div>
     <div class="action-row">
-      <button class="btn btn-hint" id="hintBtn" style="flex:0 0 auto; padding:13px 18px;">提示</button>
+      <button class="btn btn-hint" id="hintBtn">💡 提示</button>
       <button class="btn btn-primary" id="submitBtn">送出答案</button>
     </div>
-    <div class="progress-wrap" style="margin-top:16px;"><div class="bar" id="progressBar"></div></div>
+    <div class="progress-wrap"><div class="bar" id="progressBar"></div></div>
     <div id="hintBox" class="feedback hint"></div>
     <div id="feedbackBox" class="feedback"></div>
   </div>
-
   <div class="empty-state" id="emptyState">
-    <div class="icon">選擇一個單元開始吧！</div>
+    <div class="big-icon">📚</div>
+    <p>選擇上方一個單元開始挑戰！</p>
+    <p style="font-size:13px;margin-top:6px;">每個單元完成可獲得 🏅 徽章，累積積分提升稱號！</p>
+    <button class="btn-small" style="margin-top:10px;" onclick="showAchievements()">🏅 查看成就</button>
   </div>
 </div>
 
 <div class="reward-overlay" id="rewardOverlay">
-  <div class="reward-box">
-    <div class="emoji">🎉</div>
+  <div class="reward-box" id="rewardBox">
+    <div class="big-icon">🎉</div>
     <h2 id="rewardTitle">太棒了！</h2>
-    <p id="rewardDesc">你完成了這個單元的所有題目！</p>
+    <p id="rewardDesc"></p>
+    <div id="rewardBadges"></div>
+    <div id="rewardCertificate" style="display:none;"></div>
     <button class="btn btn-primary" onclick="closeReward()">繼續挑戰</button>
+  </div>
+</div>
+
+<div class="achieve-overlay" id="achieveOverlay">
+  <div class="achieve-box">
+    <h2>🏅 成就大廳</h2>
+    <div class="sub">累積積分提升稱號，完成單元收集徽章</div>
+    <div class="rank-section">
+      <div style="font-size:13px;color:#888;">目前稱號</div>
+      <div class="current-rank" id="achieveRank"></div>
+      <div class="next-rank" id="achieveNextRank"></div>
+      <div class="rank-bar"><div class="fill" id="rankProgressBar"></div></div>
+    </div>
+    <div style="font-weight:700;font-size:14px;margin-bottom:8px;">徽章收集</div>
+    <div class="achieve-grid" id="badgeGrid"></div>
+    <div id="certificateArea" style="display:none;"></div>
+    <button class="btn btn-primary" onclick="closeAchievements()" style="width:100%;">關閉</button>
   </div>
 </div>
 
@@ -315,170 +442,156 @@ const topics = [
     name: "分數與小數混合計算",
     badge: "四則運算",
     questions: [
-      {
-        title: "分數加減混合",
-        subtitle: "一步步來，先通分再計算",
-        text: "計算：<b>1/2 + 1/3 - 1/6</b> ＝ ？",
-        hint: "先算 1/2 + 1/3，通分成分母 6：3/6 + 2/6 = 5/6，再減 1/6。",
-        answer: "2/3",
-        nums: [2/3]
-      },
-      {
-        title: "分數乘法",
-        subtitle: "分子乘分子、分母乘分母",
-        text: "計算：<b>2/3 × 3/4</b> ＝ ？",
-        hint: "2×3=6，3×4=12，得到 6/12，約分後是？",
-        answer: "1/2",
-        nums: [1/2]
-      },
-      {
-        title: "分數除法",
-        subtitle: "除以一個數等於乘它的倒數",
-        text: "計算：<b>3/4 ÷ 2/5</b> ＝ ？",
-        hint: "3/4 ÷ 2/5 = 3/4 × 5/2 = 15/8",
-        answer: "15/8",
-        nums: [15/8]
-      },
-      {
-        title: "小數四則",
-        subtitle: "先乘除後加減，括號優先",
-        text: "計算：<b>2.5 × (3.6 + 1.4)</b> ＝ ？",
-        hint: "先算括號內 3.6+1.4=5.0，再算 2.5×5。",
-        answer: "12.5",
-        nums: [12.5]
-      },
+      { title: "分數加減混合", subtitle: "一步步來，先通分再計算", text: "計算：<b>1/2 + 1/3 - 1/6</b> ＝ ？", hint: "先算 1/2 + 1/3，通分成分母 6：3/6 + 2/6 = 5/6，再減 1/6。", answer: "2/3", nums: [2/3] },
+      { title: "分數乘法", subtitle: "分子乘分子、分母乘分母", text: "計算：<b>2/3 × 3/4</b> ＝ ？", hint: "2×3=6，3×4=12，得到 6/12，約分後是？", answer: "1/2", nums: [1/2] },
+      { title: "分數除法", subtitle: "除以一個數等於乘它的倒數", text: "計算：<b>3/4 ÷ 2/5</b> ＝ ？", hint: "3/4 ÷ 2/5 = 3/4 × 5/2 = 15/8", answer: "15/8", nums: [15/8] },
+      { title: "小數四則", subtitle: "先乘除後加減，括號優先", text: "計算：<b>2.5 × (3.6 + 1.4)</b> ＝ ？", hint: "先算括號內 3.6+1.4=5.0，再算 2.5×5。", answer: "12.5", nums: [12.5] },
     ]
   },
   {
-    id: "speed",
-    name: "速率",
-    badge: "距離 ÷ 時間",
+    id: "speed", name: "速率", badge: "距離 ÷ 時間",
     questions: [
-      {
-        title: "速率的意義",
-        subtitle: "每秒、每分、每小時走的距離",
-        text: "小明 3 分鐘走了 240 公尺，他的速率是每分鐘多少公尺？",
-        hint: "速率 = 距離 ÷ 時間。240 ÷ 3 = ？",
-        answer: "80",
-        nums: [80]
-      },
-      {
-        title: "單位換算",
-        subtitle: "公尺/秒 → 公里/時",
-        text: "時速 72 公里，等於每秒幾公尺？<br><small>提示：1 公里 = 1000 公尺，1 小時 = 3600 秒</small>",
-        hint: "72公里 = 72000公尺，1小時 = 3600秒，72000 ÷ 3600 = ？",
-        answer: "20",
-        nums: [20]
-      },
-      {
-        title: "速率應用",
-        subtitle: "同時出發，誰先到？",
-        text: "甲每秒跑 5 公尺，乙每秒跑 4 公尺。兩人同時從同一地點出發，<b>30 秒後兩人相差幾公尺？</b>",
-        hint: "甲 30秒走了 5×30=150公尺，乙走了 4×30=120公尺，相差？",
-        answer: "30",
-        nums: [30]
-      },
+      { title: "速率的意義", subtitle: "每秒、每分、每小時走的距離", text: "小明 3 分鐘走了 240 公尺，他的速率是每分鐘多少公尺？", hint: "速率 = 距離 ÷ 時間。240 ÷ 3 = ？", answer: "80", nums: [80] },
+      { title: "單位換算", subtitle: "公尺/秒 → 公里/時", text: "時速 72 公里，等於每秒幾公尺？<br><small>提示：1 公里 = 1000 公尺，1 小時 = 3600 秒</small>", hint: "72公里 = 72000公尺，1小時 = 3600秒，72000 ÷ 3600 = ？", answer: "20", nums: [20] },
+      { title: "速率應用", subtitle: "同時出發，誰先到？", text: "甲每秒跑 5 公尺，乙每秒跑 4 公尺。兩人同時從同一地點出發，<b>30 秒後兩人相差幾公尺？</b>", hint: "甲 30秒走了 5×30=150公尺，乙走了 4×30=120公尺，相差？", answer: "30", nums: [30] },
     ]
   },
   {
-    id: "volume",
-    name: "形體關係·體積·表面積",
-    badge: "柱體",
+    id: "volume", name: "形體關係·體積·表面積", badge: "柱體",
     questions: [
-      {
-        title: "柱體體積",
-        subtitle: "底面積 × 高",
-        text: "一個圓柱的底面積是 50 平方公分，高是 10 公分，體積是多少立方公分？",
-        hint: "柱體體積 = 底面積 × 高 = 50 × 10",
-        answer: "500",
-        nums: [500]
-      },
-      {
-        title: "表面積",
-        subtitle: "所有面的面積總和",
-        text: "一個正方體邊長 5 公分，表面積是多少平方公分？<br><small>正方體有 6 個面，每個面都是正方形</small>",
-        hint: "一個面面積 = 5×5=25，總共有6個面，25×6=？",
-        answer: "150",
-        nums: [150]
-      },
+      { title: "柱體體積", subtitle: "底面積 × 高", text: "一個圓柱的底面積是 50 平方公分，高是 10 公分，體積是多少立方公分？", hint: "柱體體積 = 底面積 × 高 = 50 × 10", answer: "500", nums: [500] },
+      { title: "表面積", subtitle: "所有面的面積總和", text: "一個正方體邊長 5 公分，表面積是多少平方公分？<br><small>正方體有 6 個面，每個面都是正方形</small>", hint: "一個面面積 = 5×5=25，總共有6個面，25×6=？", answer: "150", nums: [150] },
     ]
   },
   {
-    id: "base-compare",
-    name: "基準量與比較量",
-    badge: "基準 × 倍數",
+    id: "base-compare", name: "基準量與比較量", badge: "基準 × 倍數",
     questions: [
-      {
-        title: "認識基準量",
-        subtitle: "基準量 × 比值 = 比較量",
-        text: "爸爸的體重是 75 公斤，小華的體重是爸爸的 <b>0.6 倍</b>，小華幾公斤？",
-        hint: "比較量 = 基準量 × 比值 = 75 × 0.6",
-        answer: "45",
-        nums: [45]
-      },
-      {
-        title: "基準量未知",
-        subtitle: "反過來求基準量",
-        text: "一條繩子用了 2/3，剩下 8 公尺。繩子原來多長？",
-        hint: "剩下 1/3 = 8 公尺，所以原來 = 8 ÷ (1/3) = 8 × 3",
-        answer: "24",
-        nums: [24]
-      },
+      { title: "認識基準量", subtitle: "基準量 × 比值 = 比較量", text: "爸爸的體重是 75 公斤，小華的體重是爸爸的 <b>0.6 倍</b>，小華幾公斤？", hint: "比較量 = 基準量 × 比值 = 75 × 0.6", answer: "45", nums: [45] },
+      { title: "基準量未知", subtitle: "反過來求基準量", text: "一條繩子用了 2/3，剩下 8 公尺。繩子原來多長？", hint: "剩下 1/3 = 8 公尺，所以原來 = 8 ÷ (1/3) = 8 × 3", answer: "24", nums: [24] },
     ]
   },
   {
-    id: "problem-solving",
-    name: "怎樣解題",
-    badge: "和差·雞兔",
+    id: "problem-solving", name: "怎樣解題", badge: "和差·雞兔",
     questions: [
-      {
-        title: "和差問題",
-        subtitle: "兩數和與兩數差",
-        text: "兩數的和是 50，差是 10。這兩個數各是多少？",
-        hint: "大數 = (和 + 差) ÷ 2 = (50+10)÷2，小數 = (和 - 差) ÷ 2",
-        answer: "30 和 20",
-        nums: [20, 30]
-      },
-      {
-        title: "雞兔問題",
-        subtitle: "假設法",
-        text: "籠子裡有雞和兔共 8 隻，腳共 22 隻。雞和兔各有幾隻？<br><small>雞 2 隻腳，兔 4 隻腳</small>",
-        hint: "假設全部是雞 → 8×2=16 隻腳，差 22-16=6 隻，每把一隻雞換成兔多 2 隻腳，6÷2=3 隻兔。雞=8-3=5。",
-        answer: "5 隻雞、3 隻兔",
-        nums: [3, 5]
-      },
+      { title: "和差問題", subtitle: "兩數和與兩數差", text: "兩數的和是 50，差是 10。這兩個數各是多少？", hint: "大數 = (和 + 差) ÷ 2 = (50+10)÷2，小數 = (和 - 差) ÷ 2", answer: "30 和 20", nums: [20, 30] },
+      { title: "雞兔問題", subtitle: "假設法", text: "籠子裡有雞和兔共 8 隻，腳共 22 隻。雞和兔各有幾隻？<br><small>雞 2 隻腳，兔 4 隻腳</small>", hint: "假設全部是雞 → 8×2=16 隻腳，差 22-16=6 隻，每把一隻雞換成兔多 2 隻腳，6÷2=3 隻兔。雞=8-3=5。", answer: "5 隻雞、3 隻兔", nums: [3, 5] },
     ]
   },
   {
-    id: "pie-chart",
-    name: "圓形圖",
-    badge: "統計",
+    id: "pie-chart", name: "圓形圖", badge: "統計",
     questions: [
-      {
-        title: "圓形圖判讀",
-        subtitle: "從圓形圖看比例",
-        text: "全班 40 人，最喜歡的水果：蘋果 30%、香蕉 25%、橘子 45%。<br><b>喜歡香蕉的有幾人？</b>",
-        hint: "40 × 25% = 40 × 0.25 = ？",
-        answer: "10",
-        nums: [10]
-      },
-      {
-        title: "圓形圖繪製",
-        subtitle: "按比例算出圓心角",
-        text: "全班 30 人，喜歡運動 12 人、喜歡閱讀 9 人、喜歡畫畫 9 人。<br><b>喜歡運動的圓心角是幾度？</b>",
-        hint: "圓心角 = (該項目人數 ÷ 總人數) × 360° = (12÷30)×360",
-        answer: "144",
-        nums: [144]
-      },
+      { title: "圓形圖判讀", subtitle: "從圓形圖看比例", text: "全班 40 人，最喜歡的水果：蘋果 30%、香蕉 25%、橘子 45%。<br><b>喜歡香蕉的有幾人？</b>", hint: "40 × 25% = 40 × 0.25 = ？", answer: "10", nums: [10] },
+      { title: "圓形圖繪製", subtitle: "按比例算出圓心角", text: "全班 30 人，喜歡運動 12 人、喜歡閱讀 9 人、喜歡畫畫 9 人。<br><b>喜歡運動的圓心角是幾度？</b>", hint: "圓心角 = (該項目人數 ÷ 總人數) × 360° = (12÷30)×360", answer: "144", nums: [144] },
     ]
   },
 ];
 
+const RANKS = [
+  { min: 0, icon: "🌱", title: "數學小種子" },
+  { min: 50, icon: "🌿", title: "數學小芽" },
+  { min: 100, icon: "🌸", title: "數學小花" },
+  { min: 200, icon: "⭐", title: "數學高手" },
+  { min: 350, icon: "🏆", title: "數學達人" },
+  { min: 500, icon: "👑", title: "數學傳奇" },
+];
+
+const BADGE_DEFS = [
+  { id: "fraction-decimal", icon: "🧮", name: "分數小數達人" },
+  { id: "speed", icon: "🏃", name: "速率高手" },
+  { id: "volume", icon: "📦", name: "體積大師" },
+  { id: "base-compare", icon: "⚖️", name: "基準量達人" },
+  { id: "problem-solving", icon: "🧩", name: "解題高手" },
+  { id: "pie-chart", icon: "📊", name: "統計分析師" },
+];
+
+const MILESTONE_BADGES = [
+  { id: "m-50", icon: "🥉", name: "50 分里程碑", need: 50 },
+  { id: "m-100", icon: "🥈", name: "100 分里程碑", need: 100 },
+  { id: "m-200", icon: "🥇", name: "200 分里程碑", need: 200 },
+  { id: "m-350", icon: "💎", name: "350 分里程碑", need: 350 },
+  { id: "m-500", icon: "👑", name: "500 分滿貫", need: 500 },
+  { id: "m-all", icon: "🏅", name: "全單元制霸", need: -1 },
+];
+
+let state = loadState();
 let currentTopic = null;
 let currentQIndex = 0;
-let score = 0;
-let completed = {};
 let hintUsed = false;
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem('math6b_state');
+    if (raw) {
+      const s = JSON.parse(raw);
+      return {
+        score: s.score || 0,
+        completedTopics: s.completedTopics || {},
+        streak: s.streak || 0,
+        bestStreak: s.bestStreak || 0,
+        totalCorrect: s.totalCorrect || 0,
+        milestones: s.milestones || [],
+      };
+    }
+  } catch(e) {}
+  return { score: 0, completedTopics: {}, streak: 0, bestStreak: 0, totalCorrect: 0, milestones: [] };
+}
+
+function saveState() {
+  try {
+    localStorage.setItem('math6b_state', JSON.stringify(state));
+  } catch(e) {}
+}
+
+function getRank(score) {
+  let r = RANKS[0];
+  for (const rk of RANKS) { if (score >= rk.min) r = rk; }
+  return r;
+}
+
+function getNextRank(score) {
+  for (let i = 0; i < RANKS.length; i++) {
+    if (RANKS[i].min > score) return RANKS[i];
+  }
+  return null;
+}
+
+function getRankProgress(score) {
+  const cur = getRank(score);
+  const next = getNextRank(score);
+  if (!next) return 100;
+  const range = next.min - cur.min;
+  const pos = score - cur.min;
+  return Math.min(100, (pos / range) * 100);
+}
+
+function checkMilestones(prevScore) {
+  const ms = MILESTONE_BADGES.filter(b => b.id !== 'm-all');
+  const newMs = [];
+  for (const m of ms) {
+    if (!state.milestones.includes(m.id) && state.score >= m.need) {
+      state.milestones.push(m.id);
+      newMs.push(m);
+    }
+  }
+  return newMs;
+}
+
+function checkAllCleared() {
+  const allDone = topics.every(t => state.completedTopics[t.id]);
+  if (allDone && !state.milestones.includes('m-all')) {
+    state.milestones.push('m-all');
+    return true;
+  }
+  return false;
+}
+
+function showToast(msg, icon) {
+  const t = document.getElementById('toast');
+  t.textContent = (icon||'') + ' ' + msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 3000);
+}
 
 const topicGrid = document.getElementById('topicGrid');
 const questionCard = document.getElementById('questionCard');
@@ -495,20 +608,31 @@ const hintBox = document.getElementById('hintBox');
 const progressBar = document.getElementById('progressBar');
 const scoreDisplay = document.getElementById('scoreDisplay');
 const progressDisplay = document.getElementById('progressDisplay');
+const rankBadge = document.getElementById('rankBadge');
+const badgeCountDisplay = document.getElementById('badgeCountDisplay');
 const rewardOverlay = document.getElementById('rewardOverlay');
 const rewardTitle = document.getElementById('rewardTitle');
 const rewardDesc = document.getElementById('rewardDesc');
+const rewardBadges = document.getElementById('rewardBadges');
+const rewardCertificate = document.getElementById('rewardCertificate');
+const achieveOverlay = document.getElementById('achieveOverlay');
+const achieveRank = document.getElementById('achieveRank');
+const achieveNextRank = document.getElementById('achieveNextRank');
+const rankProgressBar = document.getElementById('rankProgressBar');
+const badgeGrid = document.getElementById('badgeGrid');
+const certificateArea = document.getElementById('certificateArea');
 
 function init() {
-  topics.forEach((t, i) => {
+  topics.forEach(t => {
     const btn = document.createElement('button');
     btn.className = 'topic-btn';
-    btn.innerHTML = `${t.name} <span class="badge">${t.badge}</span>`;
+    const done = state.completedTopics[t.id];
+    btn.innerHTML = `${t.name} <span class="tbadge">${t.badge}</span><span class="checkmark ${done?'show':''}">✓</span>`;
     btn.dataset.id = t.id;
     btn.addEventListener('click', () => selectTopic(t.id));
     topicGrid.appendChild(btn);
   });
-  updateStats();
+  updateAll();
 }
 
 function selectTopic(id) {
@@ -542,51 +666,30 @@ function showQuestion() {
   questionTitle.textContent = q.title;
   questionSubtitle.textContent = q.subtitle;
   questionText.innerHTML = q.text;
-  buildInput(q);
-  buildStepIndicator();
-  hintBtn.onclick = () => showHint(q);
+
+  inputArea.innerHTML = '';
+  const ig = document.createElement('div');
+  ig.className = 'input-group';
+  ig.innerHTML = '<label>你的答案：</label><input type="text" id="answerInput" placeholder="輸入你的答案..." autocomplete="off">';
+  inputArea.appendChild(ig);
+  const inp = document.getElementById('answerInput');
+  inp.focus();
+  inp.addEventListener('keydown', e => { if (e.key === 'Enter') checkAnswer(q); });
+
+  const qs2 = currentTopic.questions;
+  let si = '';
+  for (let i = 0; i < qs2.length; i++) {
+    si += `<span class="dot ${i <= currentQIndex ? 'filled' : ''}"></span> `;
+  }
+  si += `第 ${currentQIndex+1}/${qs2.length} 題`;
+  stepIndicator.innerHTML = si;
+
+  hintBtn.onclick = () => { hintUsed = true;
+    hintBox.innerHTML = `<div class="fb-title">💡 提示</div>${q.hint}`;
+    hintBox.classList.add('visible');
+  };
   submitBtn.onclick = () => checkAnswer(q);
   updateProgress();
-}
-
-function buildInput(q) {
-  inputArea.innerHTML = '';
-  const inputGroup = document.createElement('div');
-  inputGroup.className = 'input-group';
-  const label = document.createElement('label');
-  label.textContent = '你的答案：';
-  const input = document.createElement('input');
-  input.type = 'text';
-  input.id = 'answerInput';
-  input.placeholder = '輸入你的答案...';
-  input.autocomplete = 'off';
-  input.addEventListener('keydown', e => {
-    if (e.key === 'Enter') checkAnswer(q);
-  });
-  inputGroup.appendChild(label);
-  inputGroup.appendChild(input);
-  inputArea.appendChild(inputGroup);
-  setTimeout(() => input.focus(), 100);
-}
-
-function buildStepIndicator() {
-  if (!currentTopic) return;
-  const qs = currentTopic.questions;
-  let html = '';
-  for (let i = 0; i < qs.length; i++) {
-    let cls = 'dot';
-    if (i < currentQIndex) cls += ' filled';
-    if (i === currentQIndex) cls += ' filled';
-    html += `<span class="${cls}"></span> `;
-  }
-  html += ` 第 ${currentQIndex+1}/${qs.length} 題`;
-  stepIndicator.innerHTML = html;
-}
-
-function showHint(q) {
-  hintUsed = true;
-  hintBox.innerHTML = `<div class="fb-title">提示</div>${q.hint}`;
-  hintBox.classList.add('visible');
 }
 
 function extractNumbers(str) {
@@ -608,12 +711,9 @@ function extractNumbers(str) {
 function checkAnswer(q) {
   const input = document.getElementById('answerInput');
   if (!input || !input.value.trim()) return;
-
   feedbackBox.classList.remove('visible', 'correct', 'wrong');
   const userAns = input.value.trim();
-
   let isCorrect = false;
-
   if (q.nums) {
     const userNums = extractNumbers(userAns);
     const expected = [...q.nums].sort((a, b) => a - b);
@@ -622,26 +722,42 @@ function checkAnswer(q) {
       isCorrect = expected.every((v, i) => Math.abs(v - got[i]) < 0.001);
     }
   }
-
   if (!isCorrect && q.accept) {
     isCorrect = q.accept.some(a => userAns === a);
   }
 
+  const prevScore = state.score;
+
   if (isCorrect) {
     const pts = hintUsed ? 5 : 10;
-    score += pts;
+    state.score += pts;
+    state.totalCorrect++;
+    if (!hintUsed) { state.streak++; if (state.streak > state.bestStreak) state.bestStreak = state.streak; }
+    else { state.streak = 0; }
+
+    saveState();
+    const newMs = checkMilestones(prevScore);
+    let extraHtml = '';
+    for (const m of newMs) {
+      extraHtml += `<div style="margin-top:6px;font-size:14px;">🎉 解鎖里程碑：${m.icon} ${m.name}！</div>`;
+      showToast(`解鎖 ${m.name}！`, m.icon);
+    }
+
     feedbackBox.className = 'feedback correct visible';
-    feedbackBox.innerHTML = `<div class="fb-title">正確！+${pts}分</div>
+    feedbackBox.innerHTML = `<div class="fb-title">✅ 正確！+${pts}分</div>
       <div>答案：${q.answer}</div>
-      ${hintUsed ? '<div style="font-size:13px;color:#888;margin-top:4px;">有用提示，得 5 分</div>' : ''}`;
+      ${hintUsed ? '<div style="font-size:13px;color:#888;">有用提示，得 5 分（連續答對歸零）</div>' : `<div style="font-size:13px;color:#888;">🔥 連續答對 ${state.streak} 題！</div>`}
+      ${extraHtml}`;
     currentQIndex++;
-    updateStats();
+    updateAll();
     setTimeout(() => showQuestion(), 1500);
   } else {
+    state.streak = 0;
+    saveState();
     feedbackBox.className = 'feedback wrong visible';
-    feedbackBox.innerHTML = `<div class="fb-title">再想想看</div>
-      <div>你的答案「${userAns}」不對，再試一次！</div>
-      <div style="margin-top:8px;"><button class="btn btn-hint" onclick="showHint(currentTopic.questions[currentQIndex])" style="padding:6px 14px;font-size:13px;">看提示</button></div>`;
+    feedbackBox.innerHTML = `<div class="fb-title">❌ 再想想看</div>
+      <div>「${userAns}」不對，再試一次！</div>
+      <div style="margin-top:6px;"><button class="btn-hint" onclick="document.getElementById('hintBtn').click()" style="padding:6px 14px;border:none;border-radius:8px;background:#fff8e1;color:#8a6d00;font-weight:600;cursor:pointer;font-family:inherit;">💡 看提示</button></div>`;
     input.value = '';
     input.focus();
   }
@@ -649,13 +765,43 @@ function checkAnswer(q) {
 }
 
 function showReward() {
-  rewardTitle.textContent = `完成了 ${currentTopic.name}！`;
-  rewardDesc.textContent = `你已經完成這個單元所有題目！總得分：${score} 分`;
-  if (!completed[currentTopic.id]) {
-    completed[currentTopic.id] = true;
+  const t = currentTopic;
+  const isNew = !state.completedTopics[t.id];
+  state.completedTopics[t.id] = true;
+  saveState();
+  checkAllCleared();
+
+  rewardTitle.textContent = isNew ? `🎉 完成 ${t.name}！` : `✅ ${t.name} 已通過！`;
+  rewardDesc.textContent = `總得分：${state.score} 分`;
+
+  let badgesHtml = '';
+  const bd = BADGE_DEFS.find(b => b.id === t.id);
+  if (bd) {
+    badgesHtml = `<div class="badge-got">${bd.icon} ${bd.name} 🏅</div>`;
+    if (isNew) showToast(`獲得徽章：${bd.name}！`, bd.icon);
   }
+
+  const allDone = topics.every(x => state.completedTopics[x.id]);
+  if (allDone) {
+    rewardCertificate.style.display = 'block';
+    rewardCertificate.innerHTML = `<div class="certificate">
+      <div class="title">🎓 畢業證書</div>
+      <div class="subtitle">全部 6 個單元 × 15 道題目</div>
+      <div class="name-line">數學小達人</div>
+      <div style="font-size:14px;color:#555;">總得分：${state.score} 分 · 稱號：${getRank(state.score).icon} ${getRank(state.score).title}</div>
+      <div class="footer-text">🎉 恭喜你完成六年級下學期所有數學挑戰！</div>
+    </div>`;
+    if (!state.milestones.includes('m-all')) {
+      state.milestones.push('m-all');
+      saveState();
+    }
+  } else {
+    rewardCertificate.style.display = 'none';
+  }
+
+  rewardBadges.innerHTML = badgesHtml;
   rewardOverlay.classList.add('visible');
-  updateStats();
+  updateAll();
 }
 
 function closeReward() {
@@ -666,16 +812,71 @@ function closeReward() {
   document.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('active'));
 }
 
-function updateStats() {
+function showAchievements() {
+  const r = getRank(state.score);
+  const nr = getNextRank(state.score);
+  achieveRank.textContent = `${r.icon} ${r.title}`;
+  achieveNextRank.textContent = nr ? `下一階：${nr.icon} ${nr.title}（${nr.min} 分）` : '🏆 已達最高階！';
+  rankProgressBar.style.width = getRankProgress(state.score) + '%';
+
+  let bgHtml = '';
+  for (const bd of BADGE_DEFS) {
+    const done = state.completedTopics[bd.id];
+    bgHtml += `<div class="achieve-item ${done?'':'locked'}">
+      <div class="icon">${done ? bd.icon : '🔒'}</div>
+      <div class="name">${done ? bd.name : '???'}</div>
+    </div>`;
+  }
+  for (const m of MILESTONE_BADGES) {
+    const got = state.milestones.includes(m.id);
+    bgHtml += `<div class="achieve-item ${got?'':'locked'}">
+      <div class="icon">${got ? m.icon : '🔒'}</div>
+      <div class="name">${got ? m.name : '???'}</div>
+    </div>`;
+  }
+  badgeGrid.innerHTML = bgHtml;
+
+  const allDone = topics.every(t => state.completedTopics[t.id]);
+  if (allDone) {
+    certificateArea.style.display = 'block';
+    certificateArea.innerHTML = `<div class="certificate" style="margin-bottom:12px;">
+      <div class="title">🎓 畢業證書</div>
+      <div class="subtitle">全部 6 個單元完成</div>
+      <div class="name-line">${r.icon} ${r.title}</div>
+      <div style="font-size:14px;color:#555;">總得分：${state.score} 分</div>
+      <div class="footer-text">🎉 恭喜完成六年級下學期所有數學挑戰！</div>
+    </div>`;
+  } else {
+    certificateArea.style.display = 'none';
+  }
+
+  achieveOverlay.classList.add('visible');
+}
+
+function closeAchievements() {
+  achieveOverlay.classList.remove('visible');
+}
+
+function updateAll() {
   const totalTopics = topics.length;
-  const done = Object.keys(completed).length;
-  progressDisplay.textContent = `完成：${Math.round(done/totalTopics*100)}%`;
-  scoreDisplay.textContent = `得分：${score}`;
+  const done = Object.keys(state.completedTopics).length;
+  const r = getRank(state.score);
+  rankBadge.textContent = `${r.icon} ${r.title}`;
+  scoreDisplay.textContent = `⭐ ${state.score} 分`;
+  progressDisplay.textContent = `📊 完成 ${Math.round(done/totalTopics*100)}%`;
+  const badgeCount = state.milestones.length + Object.keys(state.completedTopics).length;
+  badgeCountDisplay.textContent = `🏅 ${badgeCount} 徽章`;
+
+  document.querySelectorAll('.topic-btn').forEach(btn => {
+    const done2 = state.completedTopics[btn.dataset.id];
+    const ck = btn.querySelector('.checkmark');
+    if (ck) { ck.classList.toggle('show', !!done2); }
+  });
 }
 
 function updateProgress() {
   if (!currentTopic) return;
-  const pct = ((currentQIndex) / currentTopic.questions.length) * 100;
+  const pct = (currentQIndex / currentTopic.questions.length) * 100;
   progressBar.style.width = pct + '%';
 }
 
