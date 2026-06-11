@@ -1,9 +1,9 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>??鈭洛 ?刻????/title>
+<title>荒野亂鬥 全英雄圖鑑</title>
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
   body{
@@ -83,149 +83,149 @@
 </head>
 <body>
 <div class="header">
-  <h1>??鈭洛 ?刻????/h1>
-  <p>104 雿??繚 ???漲?? 繚 暺??底蝝唳???/p>
+  <h1>荒野亂鬥 全英雄圖鑑</h1>
+  <p>104 位英雄 · 按稀有度分類 · 點開看詳細技能</p>
   <div class="search-bar">
-    <input type="text" id="searchInput" placeholder="???梢??迂..." oninput="filterBrawlers()">
+    <input type="text" id="searchInput" placeholder="搜尋英雄名稱..." oninput="filterBrawlers()">
   </div>
   <div class="filter-group" id="classFilters">
-    <button class="filter-btn active" data-class="all" onclick="filterClass('all')">?券</button>
-    <button class="filter-btn" data-class="?瑕拿" onclick="filterClass('?瑕拿')">?瑕拿</button>
-    <button class="filter-btn" data-class="?血?" onclick="filterClass('?血?')">?血?</button>
-    <button class="filter-btn" data-class="撠?" onclick="filterClass('撠?')">撠?</button>
-    <button class="filter-btn" data-class="?箏恥" onclick="filterClass('?箏恥')">?箏恥</button>
-    <button class="filter-btn" data-class="頛" onclick="filterClass('頛')">頛</button>
-    <button class="filter-btn" data-class="???? onclick="filterClass('????)">????/button>
-    <button class="filter-btn" data-class="?批" onclick="filterClass('?批')">?批</button>
+    <button class="filter-btn active" data-class="all" onclick="filterClass('all')">全部</button>
+    <button class="filter-btn" data-class="傷害" onclick="filterClass('傷害')">傷害</button>
+    <button class="filter-btn" data-class="坦克" onclick="filterClass('坦克')">坦克</button>
+    <button class="filter-btn" data-class="射手" onclick="filterClass('射手')">射手</button>
+    <button class="filter-btn" data-class="刺客" onclick="filterClass('刺客')">刺客</button>
+    <button class="filter-btn" data-class="輔助" onclick="filterClass('輔助')">輔助</button>
+    <button class="filter-btn" data-class="投彈手" onclick="filterClass('投彈手')">投彈手</button>
+    <button class="filter-btn" data-class="控場" onclick="filterClass('控場')">控場</button>
   </div>
 </div>
 <div class="container" id="brawlerContainer"></div>
-<div class="empty-state" id="emptyState">?曆??啁泵???梢?</div>
-<div class="footer">鞈?靘?嚗upercell 繚 ?湔??2026 撟?6 ??/div>
+<div class="empty-state" id="emptyState">找不到符合的英雄</div>
+<div class="footer">資料來源：Supercell · 更新於 2026 年 6 月</div>
 <script>
 const brawlers=[
-  {name:"?芾?",en:"Shelly",emoji:"?",rarity:"Starting",class:"?瑕拿",atk:"?耦???嚗?頝?瑕拿璆菟?嚗?游?????,super:"蝧餅遝蝒必 ????蝧餅遝銝衣撠?蝝敶???萎犖",tip:"鞎潸?頛詨?舐移擃??憭扳?蝧餅遝????"},
-  {name:"憒桀?",en:"Nita",emoji:"?",rarity:"Starting",class:"?瑕拿",atk:"?渡??郭?餅?嚗蝛輸鈭?,super:"?砍??? ???砍?憭抒??餅??萎犖嚗??潸粥雿?,tip:"?函??潮?萎犖雿?嚗雲?芋撘?憟賜"},
-  {name:"?舐??,en:"Colt",emoji:"?",rarity:"Starting",class:"?瑕拿",atk:"6?潮??摮?嚗?蝔扔??,super:"??憸冽 ??撠12?澆鞎怎忽摮?嚗?游?????,tip:"??憯嚗之????楝"},
-  {name:"?祉?",en:"Bull",emoji:"??",rarity:"Starting",class:"?血?",atk:"5?潭敶?餈??Ｙ??潭扔擃?,super:"?餌?銵? ??????嚗?憌鈭箔蒂???瑕拿",tip:"?頩脖犖銵??嚗之????舫脫"},
-  {name:"瞏正",en:"Jessie",emoji:"?",rarity:"Starting",class:"?批",atk:"?澆??賡????臬?頝喳銝剖??鈭?,super:"?芸??脣 ???函蔡銝?啁?啗???餈鈭?,tip:"?脣?曇??Ｘ??雿蔭嚗邢?暹??扔雿?},
-  {name:"撣???,en:"Brock",emoji:"??",rarity:"Starting",class:"撠?",atk:"?澆??怎悌嚗銝剖?擃摰?,super:"?怎悌敶? ????摰??撠??蝞哨?憭抒?????,tip:"??瘨?憭扳??舐靘?頝舀??嗆?銵"},
-  {name:"?暻亙?",en:"Dynamike",emoji:"?",rarity:"Starting",class:"????,atk:"??拇?瑞恣嚗辣?脩???,super:"?頩西髡頩????銝?之?貉嚗?憭抒?????,tip:"??萎犖韏唬?銝嚗之???"},
-  {name:"?踵舅",en:"Bo",emoji:"?",rarity:"Starting",class:"?批",atk:"撠3?潛??貊悌嚗瞈箏?",super:"?拍?琿 ????憿?瘀??萎犖頦拙?喟???,tip:"?圈?曇??Ｘ?敹?銋楝嚗?渲?撥"},
-  {name:"餈芸?",en:"Tick",emoji:"?夾",rarity:"Starting",class:"????,atk:"?澆?3??頝喳??,super:"憭折?券 ???澆?銝憿楊憭抒敶?憭抒????瑕拿",tip:"頨脣??敺銝嚗之??其??芯?"},
-  {name:"8瘥",en:"8-Bit",emoji:"?儭?,rarity:"Starting",class:"?瑕拿",atk:"撠銝銝脤撠?敶?,super:"?賡?憓撥?????曄蔭憓?鋆蔭嚗?????瑕拿+35%",tip:"鋆蔭?曉?拚?敺?????韏瑞??撓??},
-  {name:"?曄繚?桅???,en:"El Primo",emoji:"??",rarity:"Rare",class:"?血?",atk:"???敹急?餅?",super:"憌澈?? ??頝喳???雿蔭???賢嚗??摰?,tip:"頝唾??航楊頞?蝷??其??????"},
-  {name:"撌游",en:"Barley",emoji:"?",rarity:"Rare",class:"????,atk:"??亦嚗?啁?銝?蝥摰喳???,super:"?⊿??ａㄡ ????摰?????憭?交偌",tip:"?格?臬?頝荔?憭扳??其?皜???摰窄??},
-  {name:"瘜Ｗ?",en:"Poco",emoji:"?",rarity:"Rare",class:"頛",atk:"?耦?單郭?餅?嚗蝛輸??鈭?,super:"瘝餌?摰?????箇?????頠敺拙之????,tip:"?臭???鋆葦嚗??典??葉??銵"},
-  {name:"蝢?",en:"Rosa",emoji:"?",rarity:"Rare",class:"?血?",atk:"?湔?餅?嚗???箸",super:"?方?霅瑞 ???脣?70%皜霅瑞嚗?蝥?蝘?,tip:"?之???銵脣?詨摰?},
-  {name:"暻亙?蝯?,en:"Max",emoji:"??",rarity:"Rare",class:"頛",atk:"4?潭?瑽??",super:"?券?????蝭??批?頠宏?漲憭批???",tip:"憭扳????摰Ｗ????},
-  {name:"P??",en:"Mr. P",emoji:"?妊",rarity:"Rare",class:"?批",atk:"?脣銵?蝞梧??賢敶歲?餅?",super:"?箏?????函蔡璈鈭箏???芸??餅??萎犖",tip:"璈鈭箏??擉瑟嚗???"},
-  {name:"瘥?",en:"Bibi",emoji:"??",rarity:"Rare",class:"?血?",atk:"?格??餅?嚗?銝剝?撣嗆????",super:"瘜⊥部?脩? ???敶歲瘜⊥部???臬?甈∪?頝?,tip:"?格??臭??踝?憭扳??函蝒敶Ｗ??之"},
-  {name:"??",en:"Rico",emoji:"漎?,rarity:"SuperRare",class:"?瑕拿",atk:"?澆??臬?敶?敶?摮?",super:"?舫?敶? ??撠12?澆鞎怎忽????敶?,tip:"?拍?????擃??鈭?},
-  {name:"????,en:"Darryl",emoji:"?儭?,rarity:"SuperRare",class:"?血?",atk:"?恣???嚗?頝?",super:"獢嗆遝蝒???蝮桅脫▲鋆∪??遝???葆霅瑞",tip:"憭扳?????踝?皛曉????格"},
-  {name:"瞏旨",en:"Penny",emoji:"?",rarity:"SuperRare",class:"????,atk:"?脣?Ｚ?嚗銝剖??湔瞈箏?",super:"???怎 ???函蔡銝?啁?株??豢鈭?,tip:"?脣?舫?????澈璅∪?銵函銝"},
-  {name:"?∠",en:"Carl",emoji:"??",rarity:"SuperRare",class:"?瑕拿",atk:"?脣餈湔????穿?憌?銝畾萄?餈?",super:"?◢蝷西? ????蝷衣?敶Ｘ?蝭????瑕拿",tip:"?格?舐忽??憭扳?頧絲靘蕭???格?"},
-  {name:"?",en:"Jacky",emoji:"?",rarity:"SuperRare",class:"?血?",atk:"?賢?郭嚗??摰喳蝛輻?",super:"?◢?賢?璈????詨??典??萎犖銝阡??瑕拿嚗頨急???,tip:"?鈭箏??霈?????},
-  {name:"??,en:"Byron",emoji:"??",rarity:"SuperRare",class:"頛",atk:"撠銝?澆蝛輸?瘥????萄??嚗?,super:"???詨? ???憭抒???瘞?嚗?蝥摰單?瘝餌?",tip:"??蝡敺?撓?粹?鋆?"},
-  {name:"?曉噸??,en:"Edgar",emoji:"?圾",rarity:"SuperRare",class:"?箏恥",atk:"?株??溝?餅?嚗?頝???",super:"憟桀?銝頨???頝喳??萎犖銝衣敺????,tip:"蝑鈭箸?銵?歲?脣?嗅"},
-  {name:"鞎?",en:"Bea",emoji:"??",rarity:"SuperRare",class:"撠?",atk:"撠銝?潸????賭葉銝??澆摰喳???,super:"?楷頧 ???銝蝢方??蕭頩斗鈭?,tip:"蝚砌??澆銝剖?蝚砌??潛??萎犖鈭支?蝘餃?撠?},
-  {name:"雿拐蔗",en:"Piper",emoji:"??",rarity:"Epic",class:"撠?",atk:"????嚗??Ｚ??摰唾?擃?,super:"憌予?旨 ??頝喳?蝛箔葉銝血?銝?3憿敶?,tip:"憭扳??舫?嚗敶?啣??"},
-  {name:"撣?",en:"Pam",emoji:"?",rarity:"Epic",class:"頛",atk:"?耦????餅?",super:"瘝餌??????函蔡瘝餌??唳?蝥敺拍????",tip:"瘝餌??唳?冽擃??窄?喲?"},
-  {name:"瘜??,en:"Frank",emoji:"?",rarity:"Epic",class:"?血?",atk:"?桀?撌券????耦蝭??瑕拿",super:"??? ???典????圈嚗??拙之蝭??萎犖",tip:"憭扳????瘀??????批??"},
-  {name:"蝝旨",en:"Nani",emoji:"??",rarity:"Epic",class:"撠?",atk:"?澆?3??????賡?敶?,super:"??桃 ???澆??舫??抒宏??璈鈭箇???,tip:"憭扳??舀????扯蕭?鈭?},
-  {name:"?脫晷??,en:"Spike",emoji:"?",rarity:"Epic",class:"?瑕拿",atk:"撠撠嚗?啣??湔撠6?孵???,super:"撠璅? ???菟?蝥摰喳??箏???皜鈭?,tip:"憭扳??臬?頝荔??格鞎潸??瑕拿璆菟?"},
-  {name:"暺?",en:"Crow",emoji:"???",rarity:"Epic",class:"?箏恥",atk:"撠3?潭楓瘥??嚗?撣嗆?蝥摰?,super:"憌?瘥必 ??頝喳?蝛箔葉??10???嚗之蝭?銝剜?",tip:"???瑕拿?舫甇Ｘ鈭箏?銵"},
-  {name:"??",en:"Leon",emoji:"??",rarity:"Epic",class:"?箏恥",atk:"撠4?潸艘???ｇ?餈??Ｗ摰單擃?,super:"敹??? ???梯澈7蝘??餅????瑟??曉耦",tip:"蝜?蝑?璈?銝?銝??撠梢頨?},
-  {name:"瘝羲",en:"Sandy",emoji:"??",rarity:"Epic",class:"?批",atk:"?瘝△??憭抒????,super:"瘝△?????菟?質???瘝嚗?????梯澈",tip:"憭扳??航??券??梯澈蝒必"},
-  {name:"?急???,en:"Mortis",emoji:"??",rarity:"Epic",class:"?箏恥",atk:"??銵?格?嚗銝剖?儔撠??",super:"?祈?靘菔必 ???砍????餅?銝血?鈭箇???,tip:"蝑鈭箸?銵?銵?嗅"},
-  {name:"憛?",en:"Tara",emoji:"?",rarity:"Epic",class:"?瑕拿",atk:"撠3撘萄?蝢?嚗蝛輸?,super:"?賡?銋憚 ???菟?瘣?撠???萎犖?詨銝剖?",tip:"憭扳??舐撅嚗?啣?鈭箸???頝?頛詨"},
-  {name:"?",en:"Gene",emoji:"??",rarity:"Epic",class:"?批",atk:"撠擳??怎嚗??ａ?",super:"蟡?蝎暸? ??隡詨銝?餅?撠鈭粹?圈??,tip:"?文??航????文敺??湔?蝘捏"},
-  {name:"?質",en:"Sprout",emoji:"?",rarity:"Epic",class:"????,atk:"?澆?敶歲蝔桀??詨?",super:"璊?????菟???餅??萎犖???拙???,tip:"璊???啣??雿窄?唾楝蝺?},
-  {name:"?",en:"Gale",emoji:"?儭?,rarity:"Epic",class:"?批",atk:"撠憭??圈",super:"?湧◢?????孵撘琿◢?銝行??鈭?,tip:"憭扳??臭??賢?其犖銝偌"},
-  {name:"??",en:"Surge",emoji:"??,rarity:"Epic",class:"?瑕拿",atk:"撠?賡???嚗銝剖???",super:"?? ?????芾澈?賢?嚗宏??鋆??嚗?,tip:"瘥?蝝?甈∟釭霈??噙皛踹之????},
-  {name:"撠?",en:"Lou",emoji:"??",rarity:"Epic",class:"?批",atk:"?游?圈?嚗敞蝛??,super:"頞之?唳?瘛?????蝭??扳鈭?,tip:"?格???皛蹂??湔?犖"},
-  {name:"?踵",en:"Fang",emoji:"??",rarity:"Epic",class:"?箏恥",atk:"頦Ｗ銝?喉??舫???賭葉",super:"憌腺 ??頦Ｗ銝?敶???摮?,tip:"憭扳?敶??舀?脣???銵"},
-  {name:"隡?",en:"Eve",emoji:"??",rarity:"Epic",class:"?瑕拿",atk:"?3?潮瘨?,super:"?砍?撟潸 ???銝蝢文??脫?鈭?,tip:"撠?舫邢?曉??Ｚ?"},
-  {name:"撌湔??,en:"Buster",emoji:"?",rarity:"Epic",class:"?血?",atk:"????餅?",super:"?餃蔣?Ｗ? ??撅?霅瑞?餅??摮?",tip:"憭扳??臭?霅瑕?????},
-  {name:"鞎",en:"Belle",emoji:"?",rarity:"Epic",class:"撠?",atk:"??瑽???,super:"璅? ??璅??萎犖雿踹??摰喳???,tip:"璅??芸?蝯血????格?"},
-  {name:"?踵?",en:"Lola",emoji:"??",rarity:"Epic",class:"?瑕拿",atk:"?澆?3???",super:"?澈 ???菟???頨怠??拇??,tip:"?澈?舀????},
-  {name:"?蹂?",en:"Ash",emoji:"??儭?,rarity:"Epic",class:"?血?",atk:"?桀??鋡??,super:"?砍??? ???砍?銝蝢方?餈賣??萎犖",tip:"?頞??瑕拿頞?"},
-  {name:"?舐",en:"Stu",emoji:"??儭?,rarity:"Epic",class:"?箏恥",atk:"撠2?潛?啣?",super:"瘞格除??????銵嚗銝剜鈭箏???銵?,tip:"?芾??賭葉撠梯???雿宏"},
-  {name:"?旨??,en:"Janet",emoji:"?",rarity:"Epic",class:"撠?",atk:"?澆??單郭憌?",super:"韏琿? ??憌蝛箔葉銝??啣耦?",tip:"蝛箔葉?舫??Ｘ??},
-  {name:"?拙?",en:"Sam",emoji:"??",rarity:"Mythic",class:"?瑕拿",atk:"????",super:"銝?喳?銝行????舀?憟撥??,tip:"餈?擃??喳?銝敺?蝔?????},
-  {name:"?潮",en:"Gray",emoji:"?",rarity:"Mythic",class:"頛",atk:"撠3?潛移撖極??,super:"?喲? ???菟???嚗?頠蝛踵╲",tip:"?喲??舐?敺?????},
-  {name:"憡?",en:"Willow",emoji:"??儭?,rarity:"Mythic",class:"?批",atk:"?澆???瘥?",super:"擳? ???批銝?鈭箔蝙?嗥?怎??",tip:"?批?菜?血???????},
-  {name:"?",en:"Doug",emoji:"?",rarity:"Mythic",class:"頛",atk:"餈??Ｙ???,super:"敺拇暑 ??敺拇暑蝭??批???頠?,tip:"???犖蝧餌"},
-  {name:"R-T",en:"R-T",emoji:"??",rarity:"Mythic",class:"?瑕拿",atk:"撠??摮?",super:"?璅∪? ???祇????Ｚ澈擃??芣??,tip:"?敺????"},
-  {name:"?潛?憪?,en:"Grom",emoji:"??",rarity:"Mythic",class:"????,atk:"?銝?郎蝷箇敶?,super:"憭抒??敶???,tip:"?銝敶?蝭?憭?},
-  {name:"?血旨",en:"Bonnie",emoji:"?",rarity:"Mythic",class:"撠?",atk:"?脣??餅?嚗??餈??敶Ｘ?嚗?,super:"??敶Ｘ? ??憭抒敶Ｘ?霈??唳???",tip:"?拍霈耦?暑??銝?頝"},
-  {name:"?潭",en:"Gus",emoji:"??",rarity:"Mythic",class:"頛",atk:"?澆??賡?敶?,super:"瘞??霅瑞 ??蝯血?頠?霅瑞",tip:"憭扳??臭????"},
-  {name:"?亙?",en:"Chuck",emoji:"??",rarity:"Mythic",class:"?瑕拿",atk:"撠??",super:"?菔?蝟餌絞 ??閮剔蔭蝡嚗窒頠?銵",tip:"閮剔蔭憟質楝蝺??臬翰????},
-  {name:"???,en:"Pearl",emoji:"??",rarity:"Mythic",class:"?瑕拿",atk:"撠暻萄?撅敶?,super:"?斤拳 ???函蔡?斤拳?敺之蝭??",tip:"?斤拳?曇??Ｙ??萎犖??撘?"},
-  {name:"瞍Ｗ?",en:"Hank",emoji:"??",rarity:"Mythic",class:"?血?",atk:"???游?瘞湔?",super:"瞏偌 ??瞏瘞港葉蝘餃?嚗頨恍?蝭??瑕拿",tip:"瘞港葉?⊥嚗??敺?},
-  {name:"璇",en:"Meg",emoji:"??",rarity:"Mythic",class:"?血?",atk:"?賡?敶??",super:"蝛蹂?璈 ??霈?撌典?璈撘瑕?????,tip:"璈???撣詨撥嚗?閬??答鞎?},
-  {name:"憟扯?",en:"Ollie",emoji:"?坎",rarity:"Mythic",class:"?血?",atk:"rap?餅?????瑕拿",super:"皛銵 ????皛雿宏",tip:"雿宏?暑?舫???},
-  {name:"???,en:"Chester",emoji:"?丑",rarity:"Mythic",class:"?瑕拿",atk:"?冽?蝟??餅?",super:"?冽?憭扳? ??瘥活憭扳???銝?",tip:"?賢憟賣??停??瘜?},
-  {name:"?潸?",en:"Mandy",emoji:"??",rarity:"Mythic",class:"撠?",atk:"?澆???嚗??西?銋???,super:"頞之??",tip:"蝡????"},
-  {name:"璇?",en:"Maisie",emoji:"?",rarity:"Mythic",class:"撠?",atk:"撠璅摮?嚗洵鈭餈質馱",super:"憭抒????蕭頩文?",tip:"蝚砌??潸?蕭頩文?憟賜"},
-  {name:"憟扯???,en:"Otis",emoji:"??",rarity:"Mythic",class:"?批",atk:"撠憓冽?",super:"撠 ??瘝??萎犖雿踹?⊥??餅???憭?,tip:"撠??萎犖霈?????},
-  {name:"??????,en:"Larry & Lawrie",emoji:"??",rarity:"Mythic",class:"????,atk:"?拐犖??銝敶?,super:"?砍????",tip:"?犖???怠???},
-  {name:"璇???,en:"Melodie",emoji:"?",rarity:"Mythic",class:"?箏恥",atk:"?喟泵?餅?",super:"?砍??喟泵?啁?",tip:"?拍?喟泵?摰?},
-  {name:"蝐喟?",en:"Mico",emoji:"??",rarity:"Mythic",class:"?箏恥",atk:"?擐??詨?",super:"頝喃?蝛箔葉頨脤?餅?",tip:"頝唾絲靘熔???},
-  {name:"摰?瘣?,en:"Angelo",emoji:"??",rarity:"Mythic",class:"撠?",atk:"撠瘞湔輕??",super:"瘝潭黎 ???菟?????,tip:"蝡瘞港?蝘餃??暑"},
-  {name:"?亥?",en:"Charlie",emoji:"??",rarity:"Mythic",class:"?批",atk:"撠???瘥?",super:"蝮雯 ???唬??萎犖雿踹?⊥?蝘餃?",tip:"?批敺????"},
-  {name:"蝘羲",en:"Cordelius",emoji:"??",rarity:"Mythic",class:"?箏恥",atk:"2??瘥?",super:"?蔣甈∪? ??撠??鈭箸??交活???,tip:"?格?撠?閫"},
-  {name:"敺瑞?蝘?,en:"Draco",emoji:"??",rarity:"Mythic",class:"?血?",atk:"?怎??餅?",super:"霈?樴耦?撥???,tip:"樴????潭扔擃?},
-  {name:"??",en:"Lily",emoji:"?",rarity:"Mythic",class:"?箏恥",atk:"?望?餅?",super:"?喲?萎犖頨怠?",tip:"蝜??嗉???},
-  {name:"?臬側",en:"Kenji",emoji:"??",rarity:"Mythic",class:"?箏恥",atk:"?熊?餅???",super:"雿宏?祆?銝血?銵",tip:"??銝憟?銵蝥"},
-  {name:"?镼?,en:"Clancy",emoji:"??",rarity:"Mythic",class:"?瑕拿",atk:"撠?寥?摮?",super:"??蝑????瑕拿",tip:"颲脣皛輻??虜撘?},
-  {name:"??",en:"Moe",emoji:"??",rarity:"Mythic",class:"?瑕拿",atk:"?賢?餅?",super:"瞏?唬?蝘餃??曇澈?餅?",tip:"?唬??航熔?蝜楝"},
-  {name:"鞎?",en:"Berry",emoji:"??",rarity:"Mythic",class:"頛",atk:"銝??嚗鋆??瑟",super:"憭抒???瘙祥??,tip:"蝡敺?撓?粹?鋆???},
-  {name:"?芸?",en:"Squeak",emoji:"?妒",rarity:"Mythic",class:"?批",atk:"銝暺雯?詨?",super:"頞之暺雯??鋆??,tip:"暺雯?舫?鈭箸???},
-  {name:"?潮?憭?,en:"Griff",emoji:"?",rarity:"Mythic",class:"?批",atk:"撠?馳???",super:"?馳頧",tip:"餈??Ｙ??潮?"},
-  {name:"撠?",en:"Kit",emoji:"?",rarity:"Mythic",class:"頛",atk:"銝瘥?",super:"頝喳??頨思?嚗?銋?銝韏瑟??,tip:"擉?血?頨思?頛詨"},
-  {name:"?井??,en:"Ruffs",emoji:"??",rarity:"Mythic",class:"頛",atk:"撠撉券",super:"蝛箸?鋆策 ??銝?撘瑕??",tip:"鋆策?霈???撘?},
-  {name:"撠???,en:"Buzz",emoji:"??",rarity:"Mythic",class:"?箏恥",atk:"擳??餅?",super:"?斤 ??撠?斤???萎犖??憯?,tip:"?文?敹恍?蝘?},
-  {name:"隡",en:"Ziggy",emoji:"??,rarity:"Mythic",class:"?瑕拿",atk:"??餅?",super:"?砍??瑟?",tip:"??舫??"},
-  {name:"?桃??,en:"Pierce",emoji:"?",rarity:"Mythic",class:"撠?",atk:"蝛輸???,super:"璅???",tip:"??蝛輸?},
-  {name:"?砍???,en:"Finx",emoji:"?",rarity:"Mythic",class:"?批",atk:"?????,super:"???剜",tip:"??頠??鈭?},
-  {name:"?望黎",en:"Kaze",emoji:"??",rarity:"Mythic",class:"?箏恥",atk:"憸典??餅?",super:"樴憸?,tip:"蝭??批"},
-  {name:"蝐喳?",en:"Mina",emoji:"??",rarity:"Mythic",class:"?瑕拿",atk:"銝??",super:"蝯?銝??,tip:"蝚砌?銝?亦?"},
-  {name:"?脩掖",en:"Lumi",emoji:"?",rarity:"Mythic",class:"?瑕拿",atk:"???餅?",super:"??敶?,tip:"?渡??"},
-  {name:"?亦?",en:"Amber",emoji:"?",rarity:"Legendary",class:"?批",atk:"???渡?餅?",super:"?行硃?????游?舐??行硃嚗??怠?????",tip:"?行硃???怠撠楝敺?"},
-  {name:"????,en:"Colette",emoji:"??",rarity:"Legendary",class:"?瑕拿",atk:"?餅????格??曉?瘥??賢澆摰?,super:"銵?餅?嚗?璅????瑕拿",tip:"???亦?"},
-  {name:"撣?僑",en:"Buzz Lightyear",emoji:"??",rarity:"Legendary",class:"?瑕拿",atk:"?瑕?瑽??,super:"?怎悌??憌??餅?",tip:"?????臬?閫"},
-  {name:"憡?",en:"Najia",emoji:"?儭?,rarity:"Legendary",class:"?瑕拿",atk:"????",super:"?梯澈蝒必",tip:"擃??澆摰?},
-  {name:"镼輸??",en:"Sirius",emoji:"潃?,rarity:"Legendary",class:"?批",atk:"??撠?",super:"暺? ???菟???詨??萎犖",tip:"憭抒????},
-  {name:"???,en:"Bolt",emoji:"??,rarity:"Legendary",class:"?瑕拿",atk:"?餅??餅?",super:"頞? ??撘瑕??芾澈?餅?",tip:"?璆菟?"},
-  {name:"?脣?隢曄",en:"Starr Nova",emoji:"?",rarity:"Legendary",class:"?瑕拿",atk:"?賡?敶?,super:"?唳??",tip:"蝭??瑕拿"},
-  {name:"?掖摰?,en:"Damian",emoji:"??",rarity:"Legendary",class:"?血?",atk:"甈??餅?",super:"撘瑕???",tip:"???折???撘?},
-  {name:"?踹",en:"Alli",emoji:"?",rarity:"Legendary",class:"?箏恥",atk:"?賡??芣?",super:"?訾?頧宏",tip:"蝛踵╲?啣"},
-  {name:"?潭?瘥?,en:"Glowy",emoji:"?",rarity:"Legendary",class:"頛",atk:"瘝餌??郭",super:"瘛典??",tip:"閫???銵"},
-  {name:"?",en:"Gigi",emoji:"?",rarity:"Legendary",class:"頛",atk:"敶勗??餅?",super:"?敶勗?",tip:"敶勗??舀??},
-  {name:"?",en:"Jae-Yong",emoji:"?",rarity:"Legendary",class:"撠?",atk:"?喟泵撠?",super:"?單郭?",tip:"AOE?瑕拿"},
-  {name:"璅孵凳",en:"Trunk",emoji:"?",rarity:"Chromatic",class:"?血?",atk:"璅寞?格?",super:"? ???脣?皜銝血?銵",tip:"蝡?頝犖撠"},
-  {name:"?啣蔣",en:"Shade",emoji:"?",rarity:"Chromatic",class:"?箏恥",atk:"?蔣?餅?",super:"蝛輻?蝘餃?",tip:"?舐忽頞?蝷"}
+  {name:"雪莉",en:"Shelly",emoji:"🔫",rarity:"Starting",class:"傷害",atk:"扇形散彈，近距離傷害極高，可破壞障礙物",super:"翻滾突襲 — 向前翻滾並發射超級散彈，擊退敵人",tip:"貼臉輸出是精髓，善用大招翻滾閃招反打"},
+  {name:"妮塔",en:"Nita",emoji:"🐻",rarity:"Starting",class:"傷害",atk:"直線震波攻擊，可穿透敵人",super:"召喚熊靈 — 召喚大熊攻擊敵人，可扛傷逼走位",tip:"用熊靈逼退敵人佔點，足球模式很好用"},
+  {name:"柯爾特",en:"Colt",emoji:"🔫",rarity:"Starting",class:"傷害",atk:"6發連射子彈，射程極遠",super:"狂彈風暴 — 射出12發可貫穿子彈，可破壞障礙物",tip:"遠程壓制，大招可拆牆開路"},
+  {name:"公牛",en:"Bull",emoji:"🐂",rarity:"Starting",class:"坦克",atk:"5發散彈，近距離爆發極高",super:"蠻牛衝撞 — 向前猛衝，撞飛敵人並造成傷害",tip:"草叢蹲人衝臉脆皮，大招可逃生可進攻"},
+  {name:"潔西",en:"Jessie",emoji:"🔧",rarity:"Starting",class:"控場",atk:"發射能量球，可彈跳命中多個敵人",super:"自動砲台 — 部署一台砲台自動攻擊附近敵人",tip:"砲台放草叢或關鍵位置，騷擾效果極佳"},
+  {name:"布洛克",en:"Brock",emoji:"🚀",rarity:"Starting",class:"射手",atk:"發射火箭，命中後高傷害",super:"火箭彈幕 — 朝指定區域發射9枚火箭，大範圍轟炸",tip:"遠程消耗，大招可用來封路或收殘血"},
+  {name:"爆破麥克",en:"Dynamike",emoji:"💣",rarity:"Starting",class:"投彈手",atk:"扔出兩根雷管，延遲爆炸",super:"爆破蹦蹦蹦 — 扔出一個大炸藥，超大範圍爆炸",tip:"預判敵人走位丟雷，大招可拆牆"},
+  {name:"阿渤",en:"Bo",emoji:"🏹",rarity:"Starting",class:"控場",atk:"射出3發爆炸箭，可濺射",super:"狩獵陷阱 — 埋3顆地雷，敵人踩到即爆炸",tip:"地雷放草叢或必經之路，控場能力強"},
+  {name:"迪克",en:"Tick",emoji:"🧨",rarity:"Starting",class:"投彈手",atk:"發射3枚彈跳地雷",super:"大難臨頭 — 發射一顆巨大炸彈，大範圍高傷害",tip:"躲在隊友後面丟雷，大招可用來自保"},
+  {name:"8比特",en:"8-Bit",emoji:"🕹️",rarity:"Starting",class:"傷害",atk:"射出一串雷射子彈",super:"能量增強器 — 放置增益裝置，範圍內友軍傷害+35%",tip:"裝置放在掩體後，和隊友一起站圈輸出"},
+  {name:"艾爾·普里莫",en:"El Primo",emoji:"🇲🇽",rarity:"Rare",class:"坦克",atk:"連續快拳攻擊",super:"飛身肘擊 — 跳向指定位置肘擊落地，範圍傷害",tip:"跳躍可跨越障礙，用來切後排或逃命"},
+  {name:"巴利",en:"Barley",emoji:"🍾",rarity:"Rare",class:"投彈手",atk:"扔出藥瓶，落地留下持續傷害區域",super:"無限暢飲 — 朝指定區域連續扔出多瓶藥水",tip:"普攻可封路，大招用來清區域或守寶石"},
+  {name:"波克",en:"Poco",emoji:"🎵",rarity:"Rare",class:"輔助",atk:"扇形音波攻擊，可穿透多個敵人",super:"治療安可曲 — 為範圍內所有友軍恢復大量生命",tip:"唯一的純補師，站在團隊中間補血"},
+  {name:"羅莎",en:"Rosa",emoji:"🌹",rarity:"Rare",class:"坦克",atk:"直拳攻擊，連續出拳",super:"藤蔓護甲 — 獲得70%減傷護盾，持續3秒",tip:"開大招後勇敢衝進去吸傷害"},
+  {name:"麥克絲",en:"Max",emoji:"🏃",rarity:"Rare",class:"輔助",atk:"4發手槍連射",super:"全速前進 — 範圍內友軍移動速度大幅提升",tip:"大招加速配合刺客坦克衝鋒"},
+  {name:"P先生",en:"Mr. P",emoji:"🧳",rarity:"Rare",class:"控場",atk:"擲出行李箱，落地彈跳攻擊",super:"基地台 — 部署機器人助手，自動攻擊敵人",tip:"機器人可持續騷擾，適合消耗戰"},
+  {name:"比比",en:"Bibi",emoji:"🏏",rarity:"Rare",class:"坦克",atk:"揮棒攻擊，擊中附帶擊退效果",super:"泡泡曲球 — 打出彈跳泡泡球，可多次彈跳",tip:"普攻擊退可保命，大招在狹窄地形威力大"},
+  {name:"瑞科",en:"Rico",emoji:"⬛",rarity:"SuperRare",class:"傷害",atk:"發射可反彈的彈力子彈",super:"華麗彈射 — 射出12發可貫穿反彈的子彈",tip:"利用牆壁反彈打掩體後的敵人"},
+  {name:"達里爾",en:"Darryl",emoji:"🛢️",rarity:"SuperRare",class:"坦克",atk:"雙管散彈，近距離爆發",super:"桶滾突進 — 縮進桶裡向前滾動，附帶護盾",tip:"大招會自動充能，滾到臉上再接普攻"},
+  {name:"潘妮",en:"Penny",emoji:"💰",rarity:"SuperRare",class:"投彈手",atk:"擲出錢袋，命中後擴散濺射",super:"老舊火炮 — 部署一台火炮轟炸敵人",tip:"砲台可隔牆攻擊，金庫模式表現不錯"},
+  {name:"卡爾",en:"Carl",emoji:"⛏️",rarity:"SuperRare",class:"傷害",atk:"擲出迴旋十字鎬，飛行一段後返回",super:"旋風礦車 — 旋轉礦用力鎬形成範圍持續傷害",tip:"普攻可穿牆，大招轉起來追著脆皮打"},
+  {name:"雅琪",en:"Jacky",emoji:"🔧",rarity:"SuperRare",class:"坦克",atk:"鑽地震波，範圍傷害可穿牆",super:"旋風鑽孔機 — 吸引周圍敵人並造成傷害，自身減傷",tip:"把敵人吸過來讓隊友集火"},
+  {name:"拜倫",en:"Byron",emoji:"🐍",rarity:"SuperRare",class:"輔助",atk:"射出一發可穿透的毒補針（敵傷友補）",super:"劇毒炸彈 — 扔出大範圍毒氣瓶，持續傷害或治療",tip:"遠程站在後方邊輸出邊補血"},
+  {name:"艾德加",en:"Edgar",emoji:"🧣",rarity:"SuperRare",class:"刺客",atk:"揮舞圍巾攻擊，近距離連擊",super:"奮力一躍 — 跳向敵人並獲得攻速加成",tip:"等敵人殘血再跳進去收割"},
+  {name:"貝亞",en:"Bea",emoji:"🐝",rarity:"SuperRare",class:"射手",atk:"射出一發蜜蜂，命中下一發傷害加倍",super:"蜂巢轟炸 — 釋放一群蜜蜂追蹤敵人",tip:"第一發命中後第二發等敵人交位移再射"},
+  {name:"佩佩",en:"Piper",emoji:"🎀",rarity:"Epic",class:"射手",atk:"狙擊傘槍，距離越遠傷害越高",super:"飛天重禮 — 跳向空中並在原地丟下3顆炸彈",tip:"大招可逃生，炸彈落地可拆牆"},
+  {name:"帕姆",en:"Pam",emoji:"🔧",rarity:"Epic",class:"輔助",atk:"扇形散彈攻擊",super:"治療台 — 部署治療台持續恢復範圍內友軍",tip:"治療台放在掩體後或寶石點"},
+  {name:"法蘭克",en:"Frank",emoji:"🔨",rarity:"Epic",class:"坦克",atk:"揮動巨錘造成扇形範圍傷害",super:"暈眩猛擊 — 全力重擊地面，暈眩大範圍敵人",tip:"大招前搖長，配合隊友控制再開"},
+  {name:"納妮",en:"Nani",emoji:"🤖",rarity:"Epic",class:"射手",atk:"發射3枚分散的能量彈",super:"遙控皮皮 — 發射可遙控移動的機器人爆炸",tip:"大招可手動操控追擊敵人"},
+  {name:"史派克",en:"Spike",emoji:"🌵",rarity:"Epic",class:"傷害",atk:"射出尖刺，落地後擴散射出6根小刺",super:"尖刺樂園 — 創造持續傷害尖刺區域，減速敵人",tip:"大招可封路，普攻貼臉傷害極高"},
+  {name:"黑鴉",en:"Crow",emoji:"🐦‍⬛",rarity:"Epic",class:"刺客",atk:"射出3發淬毒飛刀，附帶持續傷害",super:"飛躍毒襲 — 跳向空中灑下10把毒刀，大範圍中毒",tip:"持續傷害可阻止敵人回血"},
+  {name:"里昂",en:"Leon",emoji:"🦎",rarity:"Epic",class:"刺客",atk:"射出4發迴旋飛鏢，近距離傷害更高",super:"忍法煙玉 — 隱身7秒，攻擊或受傷會現形",tip:"繞後等時機，不要一開局就隱身"},
+  {name:"沙迪",en:"Sandy",emoji:"🌙",rarity:"Epic",class:"控場",atk:"扔出沙塵扇，大範圍攻擊",super:"沙塵暴 — 創造遮蔽視野的沙暴，範圍內友軍隱身",tip:"大招可讓全隊隱身突襲"},
+  {name:"莫提斯",en:"Mortis",emoji:"🦇",rarity:"Epic",class:"刺客",atk:"向前衝刺揮擊，命中可回復少量生命",super:"噬血侵襲 — 召喚蝙蝠攻擊並吸取敵人生命",tip:"等敵人殘血再用衝刺收割"},
+  {name:"塔拉",en:"Tara",emoji:"🔮",rarity:"Epic",class:"傷害",atk:"射出3張塔羅牌，可穿透",super:"命運之輪 — 創造黑洞，將範圍內敵人吸到中心",tip:"大招可破局，吸到多人時隊友跟上輸出"},
+  {name:"吉恩",en:"Gene",emoji:"🧞",rarity:"Epic",class:"控場",atk:"射出魔法火焰，距離遠",super:"神燈精靈 — 伸出一隻手將敵人鉤到面前",tip:"鉤子可越牆，鉤到後排直接集火秒殺"},
+  {name:"芽芽",en:"Sprout",emoji:"🌱",rarity:"Epic",class:"投彈手",atk:"發射彈跳種子炸彈",super:"植物牆 — 創造一道可阻擋敵人的植物屏障",tip:"植物牆可分割戰場或擋住寶石路線"},
+  {name:"戈爾",en:"Gale",emoji:"🌪️",rarity:"Epic",class:"控場",atk:"射出多枚冰雹",super:"暴風雪 — 吹出強風擊退並減速敵人",tip:"大招可保命可推人下水"},
+  {name:"瑟奇",en:"Surge",emoji:"⚡",rarity:"Epic",class:"傷害",atk:"射出能量光束，命中後分裂",super:"升級 — 提升自身能力（移速、分裂攻擊等）",tip:"每升級一次質變，先農滿大招前期"},
+  {name:"小羅",en:"Lou",emoji:"❄️",rarity:"Epic",class:"控場",atk:"噴出冰霜，累積冰凍值",super:"超大冰淇淋 — 凍結範圍內敵人",tip:"普攻疊冰凍，滿了直接凍人"},
+  {name:"阿方",en:"Fang",emoji:"🥋",rarity:"Epic",class:"刺客",atk:"踢出一腳，可連鎖命中",super:"飛踢 — 踢出一個可彈射的鞋子",tip:"大招彈射可收割多個殘血"},
+  {name:"伊芙",en:"Eve",emoji:"🦎",rarity:"Epic",class:"傷害",atk:"吐出3發酸液",super:"召喚幼蟲 — 生出一群小蟲攻擊敵人",tip:"小蟲可騷擾和探草"},
+  {name:"巴斯特",en:"Buster",emoji:"🎬",rarity:"Epic",class:"坦克",atk:"散彈攻擊",super:"電影螢幕 — 展開護盾阻擋前方子彈",tip:"大招可保護後排隊友"},
+  {name:"貝爾",en:"Belle",emoji:"🔫",rarity:"Epic",class:"射手",atk:"狙擊槍射擊",super:"標記 — 標記敵人使其受到的傷害增加",tip:"標記優先給坦克或關鍵目標"},
+  {name:"蘿拉",en:"Lola",emoji:"💃",rarity:"Epic",class:"傷害",atk:"發射3枚能量彈",super:"分身 — 創造一個分身協助攻擊",tip:"分身可探草騙招"},
+  {name:"阿什",en:"Ash",emoji:"🗑️",rarity:"Epic",class:"坦克",atk:"揮動垃圾袋攻擊",super:"召喚老鼠 — 召喚一群老鼠追擊敵人",tip:"受傷越多傷害越高"},
+  {name:"斯特",en:"Stu",emoji:"🏎️",rarity:"Epic",class:"刺客",atk:"射出2發火焰彈",super:"氮氣加速 — 向前衝刺，命中敵人可連續衝",tip:"只要命中就能連續位移"},
+  {name:"珍妮特",en:"Janet",emoji:"🎤",rarity:"Epic",class:"射手",atk:"發射音波飛彈",super:"起飛 — 飛到空中不受地形限制",tip:"空中可避開地面攻擊"},
+  {name:"薩姆",en:"Sam",emoji:"🥊",rarity:"Mythic",class:"傷害",atk:"雙拳連擊",super:"丟出拳套並拉回，可撿回拳套強化",tip:"近戰爆發高，拳套丟出後遠程也有威脅"},
+  {name:"格雷",en:"Gray",emoji:"🎭",rarity:"Mythic",class:"輔助",atk:"射出3發精密工具",super:"傳送門 — 創造兩個傳送點，友軍可穿梭",tip:"傳送門可繞後或救隊友"},
+  {name:"威洛",en:"Willow",emoji:"👁️",rarity:"Mythic",class:"控場",atk:"發射連環毒彈",super:"魅惑 — 控制一名敵人使其短暫為我方而戰",tip:"控制敵方坦克或射手反打"},
+  {name:"道格",en:"Doug",emoji:"🌭",rarity:"Mythic",class:"輔助",atk:"近距離熱狗攻擊",super:"復活 — 復活範圍內倒下的友軍",tip:"關鍵時刻救人翻盤"},
+  {name:"R-T",en:"R-T",emoji:"🤖",rarity:"Mythic",class:"傷害",atk:"射出分裂子彈",super:"分離模式 — 本體和分離身體各自攻擊",tip:"分離後可雙線操作"},
+  {name:"格羅姆",en:"Grom",emoji:"💂",rarity:"Mythic",class:"投彈手",atk:"拋出一個警示炸彈",super:"大範圍炸彈轟炸",tip:"預判丟炸彈，範圍大"},
+  {name:"邦妮",en:"Bonnie",emoji:"🎪",rarity:"Mythic",class:"射手",atk:"砲彈攻擊（可切換近戰遠程形態）",super:"切換形態 — 大砲形態變近戰或遠程",tip:"利用變形靈活應對不同距離"},
+  {name:"格斯",en:"Gus",emoji:"🎈",rarity:"Mythic",class:"輔助",atk:"發射能量彈",super:"氣球護盾 — 給友軍加護盾",tip:"大招可保關鍵隊友"},
+  {name:"查克",en:"Chuck",emoji:"🚂",rarity:"Mythic",class:"傷害",atk:"射出釘子",super:"鐵軌系統 — 設置立柱，沿軌道衝刺",tip:"設置好路線後可快速來回"},
+  {name:"珀爾",en:"Pearl",emoji:"🍞",rarity:"Mythic",class:"傷害",atk:"射出麵包屑散彈",super:"烤箱 — 部署烤箱加熱後大範圍爆炸",tip:"烤箱放草叢等敵人靠近引爆"},
+  {name:"漢克",en:"Hank",emoji:"🐟",rarity:"Mythic",class:"坦克",atk:"蓄力噴射水流",super:"潛水 — 潛入水中移動，現身造成範圍傷害",tip:"水中無敵，適合繞後"},
+  {name:"梅格",en:"Meg",emoji:"🤖",rarity:"Mythic",class:"坦克",atk:"能量彈連射",super:"穿上機甲 — 變成巨型機甲強化所有能力",tip:"機甲狀態非常強，不要輕易浪費"},
+  {name:"奧莉",en:"Ollie",emoji:"🧢",rarity:"Mythic",class:"坦克",atk:"rap攻擊連續傷害",super:"滑板衝刺 — 向前滑板位移",tip:"位移靈活可閃招"},
+  {name:"切斯特",en:"Chester",emoji:"🤡",rarity:"Mythic",class:"傷害",atk:"隨機糖果攻擊",super:"隨機大招 — 每次大招效果不同",tip:"抽到好效果就打一波"},
+  {name:"曼蒂",en:"Mandy",emoji:"💅",rarity:"Mythic",class:"射手",atk:"發射光束，聚焦越久越遠",super:"超大光束",tip:"站在遠處瞄準"},
+  {name:"梅希",en:"Maisie",emoji:"🎯",rarity:"Mythic",class:"射手",atk:"射出標靶子彈，第二發追蹤",super:"大範圍擴散追蹤彈",tip:"第二發自動追蹤很好用"},
+  {name:"奧蒂斯",en:"Otis",emoji:"🐙",rarity:"Mythic",class:"控場",atk:"射出墨汁",super:"封印 — 沉默敵人使其無法攻擊或開大",tip:"封印關鍵敵人讓隊友集火"},
+  {name:"拉里與勞瑞",en:"Larry & Lawrie",emoji:"👔",rarity:"Mythic",class:"投彈手",atk:"兩人合作丟炸彈",super:"召喚勞瑞協助",tip:"雙人操作火力加倍"},
+  {name:"梅樂蒂",en:"Melodie",emoji:"🎶",rarity:"Mythic",class:"刺客",atk:"音符攻擊",super:"召喚音符環繞",tip:"利用音符疊傷害"},
+  {name:"米科",en:"Mico",emoji:"🐒",rarity:"Mythic",class:"刺客",atk:"扔出香蕉炸彈",super:"跳上空中躲避攻擊",tip:"跳起來躲技能"},
+  {name:"安吉洛",en:"Angelo",emoji:"🧚",rarity:"Mythic",class:"射手",atk:"射出水滴狙擊",super:"沼澤 — 創造減速區域",tip:"站在水上移動靈活"},
+  {name:"查莉",en:"Charlie",emoji:"🐍",rarity:"Mythic",class:"控場",atk:"射出連續毒彈",super:"縛網 — 困住敵人使其無法移動",tip:"控制後讓隊友集火"},
+  {name:"科迪",en:"Cordelius",emoji:"🍄",rarity:"Mythic",class:"刺客",atk:"2連發毒菇",super:"暗影次元 — 將一名敵人拉入次元單挑",tip:"單挑對方關鍵角色"},
+  {name:"德瑞科",en:"Draco",emoji:"🐉",rarity:"Mythic",class:"坦克",atk:"火球攻擊",super:"變成龍形態強化攻擊",tip:"龍型態爆發極高"},
+  {name:"莉莉",en:"Lily",emoji:"🌺",rarity:"Mythic",class:"刺客",atk:"花朵攻擊",super:"傳送到敵人身後",tip:"繞後收脆皮"},
+  {name:"肯尼",en:"Kenji",emoji:"🍜",rarity:"Mythic",class:"刺客",atk:"拉麵攻擊連斬",super:"位移斬擊並回血",tip:"打完一套回血續戰"},
+  {name:"克蘭西",en:"Clancy",emoji:"🦀",rarity:"Mythic",class:"傷害",atk:"射出蟹鉗子彈",super:"升級等級提升傷害",tip:"農到滿級非常強"},
+  {name:"茉兒",en:"Moe",emoji:"🦔",rarity:"Mythic",class:"傷害",atk:"鑽地攻擊",super:"潛入地下移動現身攻擊",tip:"地下可躲招可繞路"},
+  {name:"貝瑞",en:"Berry",emoji:"🍓",rarity:"Mythic",class:"輔助",atk:"丟出果汁，可補友傷敵",super:"大範圍果汁治療",tip:"站在後方邊輸出邊補隊友"},
+  {name:"雪克",en:"Squeak",emoji:"🧪",rarity:"Mythic",class:"控場",atk:"丟出黏液炸彈",super:"超大黏液球分裂攻擊",tip:"黏液可黏人減速"},
+  {name:"格里夫",en:"Griff",emoji:"💰",rarity:"Mythic",class:"控場",atk:"射出金幣散彈",super:"金幣轟炸",tip:"近距離爆發高"},
+  {name:"小貓",en:"Kit",emoji:"🐱",rarity:"Mythic",class:"輔助",atk:"丟出毛球",super:"跳到隊友身上，騎乘後一起攻擊",tip:"騎在坦克身上輸出"},
+  {name:"拉夫斯",en:"Ruffs",emoji:"🐕",rarity:"Mythic",class:"輔助",atk:"射出骨頭",super:"空投補給 — 丟下強化道具",tip:"補給品可讓隊友變強"},
+  {name:"小蜜蜂",en:"Buzz",emoji:"🏊",rarity:"Mythic",class:"刺客",atk:"魚叉攻擊",super:"鉤爪 — 射出鉤爪拉向敵人或牆壁",tip:"鉤到牆可快速位移"},
+  {name:"伊格",en:"Ziggy",emoji:"⚡",rarity:"Mythic",class:"傷害",atk:"閃電攻擊",super:"召喚雷擊",tip:"閃電可連鎖"},
+  {name:"皮爾斯",en:"Pierce",emoji:"🎯",rarity:"Mythic",class:"射手",atk:"穿透射擊",super:"標記狙擊",tip:"遠程穿透"},
+  {name:"芬克斯",en:"Finx",emoji:"🔮",rarity:"Mythic",class:"控場",atk:"預言球攻擊",super:"時間扭曲",tip:"加速友軍減速敵人"},
+  {name:"凱澤",en:"Kaze",emoji:"🍃",rarity:"Mythic",class:"刺客",atk:"風刃攻擊",super:"龍捲風",tip:"範圍控場"},
+  {name:"米娜",en:"Mina",emoji:"⚔️",rarity:"Mythic",class:"傷害",atk:"三連擊",super:"終結一擊",tip:"第三下特別痛"},
+  {name:"露米",en:"Lumi",emoji:"💡",rarity:"Mythic",class:"傷害",atk:"光球攻擊",super:"閃光彈",tip:"致盲效果"},
+  {name:"琥珀",en:"Amber",emoji:"🔥",rarity:"Legendary",class:"控場",atk:"持續噴火攻擊",super:"焦油坑 — 噴出可燃焦油，點火後持續燃燒",tip:"焦油加點火可封路很久"},
+  {name:"克萊特",en:"Colette",emoji:"📋",rarity:"Legendary",class:"傷害",atk:"攻擊造成目標百分比生命值傷害",super:"衝刺攻擊，根據目標血量造成傷害",tip:"打坦克特別痛"},
+  {name:"布茲光年",en:"Buzz Lightyear",emoji:"🚀",rarity:"Legendary",class:"傷害",atk:"雷射槍攻擊",super:"火箭背包飛行攻擊",tip:"期間限定聯名角色"},
+  {name:"娜嘉",en:"Najia",emoji:"🗡️",rarity:"Legendary",class:"傷害",atk:"雙刀連斬",super:"隱身突襲",tip:"高爆發刺客"},
+  {name:"西里烏斯",en:"Sirius",emoji:"⭐",rarity:"Legendary",class:"控場",atk:"星光射線",super:"黑洞 — 創造引力場吸引敵人",tip:"大範圍控場"},
+  {name:"博爾特",en:"Bolt",emoji:"⚡",rarity:"Legendary",class:"傷害",atk:"電擊攻擊",super:"超載 — 強化自身攻擊",tip:"爆發極高"},
+  {name:"史塔諾瓦",en:"Starr Nova",emoji:"💫",rarity:"Legendary",class:"傷害",atk:"能量彈",super:"新星爆發",tip:"範圍傷害"},
+  {name:"達米安",en:"Damian",emoji:"👑",rarity:"Legendary",class:"坦克",atk:"權杖攻擊",super:"強化領域",tip:"領域內隊友變強"},
+  {name:"阿利",en:"Alli",emoji:"👾",rarity:"Legendary",class:"刺客",atk:"能量爪擊",super:"相位轉移",tip:"穿梭戰場"},
+  {name:"格洛比",en:"Glowy",emoji:"🟣",rarity:"Legendary",class:"輔助",atk:"治療光波",super:"淨化光環",tip:"解控加補血"},
+  {name:"吉利",en:"Gigi",emoji:"🎭",rarity:"Legendary",class:"輔助",atk:"影子攻擊",super:"操控影子",tip:"影子可探草"},
+  {name:"初音",en:"Jae-Yong",emoji:"🎸",rarity:"Legendary",class:"射手",atk:"音符射擊",super:"音波爆發",tip:"AOE傷害"},
+  {name:"樹幹",en:"Trunk",emoji:"🌳",rarity:"Chromatic",class:"坦克",atk:"樹木揮擊",super:"扎根 — 獲得減傷並回血",tip:"站著跟人對A"},
+  {name:"陰影",en:"Shade",emoji:"👻",rarity:"Chromatic",class:"刺客",atk:"暗影攻擊",super:"穿牆移動",tip:"可穿越障礙物"}
 ];
 const rarityOrder=["Starting","Rare","SuperRare","Epic","Mythic","Legendary","Chromatic"];
-const rarityNames={Starting:"???梢?",Rare:"蝔??,SuperRare:"頞???,Epic:"?脰帘",Mythic:"蟡店",Legendary:"?喳?",Chromatic:"瘚蔗"};
+const rarityNames={Starting:"初始英雄",Rare:"稀有",SuperRare:"超稀有",Epic:"史詩",Mythic:"神話",Legendary:"傳奇",Chromatic:"流彩"};
 const container=document.getElementById("brawlerContainer");
 function render(){
   let html="";
   for(const r of rarityOrder){
     const list=brawlers.filter(b=>b.rarity===r);
     if(!list.length)continue;
-    html+=`<div class="rarity-section" data-rarity="${r}"><div class="rarity-title rarity-${r}">${rarityNames[r]}<span class="rarity-count">${list.length} 雿?/span></div>`;
+    html+=`<div class="rarity-section" data-rarity="${r}"><div class="rarity-title rarity-${r}">${rarityNames[r]}<span class="rarity-count">${list.length} 位</span></div>`;
     for(const b of list){
       const c=[{r:"Starting",c:"#6a6a6a"},{r:"Rare",c:"#4a9a4a"},{r:"SuperRare",c:"#4a8ad4"},{r:"Epic",c:"#9a4ad4"},{r:"Mythic",c:"#d47a2a"},{r:"Legendary",c:"#d4aa2a"},{r:"Chromatic",c:"#2aaaaa"}].find(x=>x.r===b.rarity)||{c:"#6a6a6a"};
       html+=`<div class="brawler-card class-${b.class}" data-class="${b.class}" data-name="${b.name}${b.en}">`;
       html+=`<div class="brawler-header" onclick="this.closest('.brawler-card').classList.toggle('open')">`;
       html+=`<div class="brawler-icon" style="background:${c.c}">${b.emoji}</div>`;
       html+=`<div class="brawler-name">${b.name}<span class="en">${b.en}</span></div>`;
-      html+=`<span class="brawler-class">${b.class}</span><span class="brawler-toggle">??/span></div>`;
-      html+=`<div class="brawler-body"><p><span class="label tag tag-attack">?格</span> ${b.atk}</p>`;
-      html+=`<p><span class="label tag tag-super">憭扳?</span> ${b.super}</p>`;
-      html+=`<p><span class="label tag tag-tip">?拇?</span> ${b.tip}</p></div></div>`;
+      html+=`<span class="brawler-class">${b.class}</span><span class="brawler-toggle">▼</span></div>`;
+      html+=`<div class="brawler-body"><p><span class="label tag tag-attack">普攻</span> ${b.atk}</p>`;
+      html+=`<p><span class="label tag tag-super">大招</span> ${b.super}</p>`;
+      html+=`<p><span class="label tag tag-tip">玩法</span> ${b.tip}</p></div></div>`;
     }
     html+=`</div>`;
   }
